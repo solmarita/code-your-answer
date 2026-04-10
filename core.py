@@ -1,8 +1,14 @@
 from pathlib import Path
+from typing import TypedDict
 from aqt import mw
 
 # Code Your Answer Model Parameters
-CYA_MODEL = {
+
+class CYAModelConfig(TypedDict):
+    name: str
+    fields: list[str]
+
+CYA_MODEL: CYAModelConfig = {
     "name": "Code Your Answer",
     "fields": [
         "Front",
