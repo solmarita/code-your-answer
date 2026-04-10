@@ -14,4 +14,20 @@ An Anki addon for practicing coding flashcards by typing answers in an IDE-style
 
 ## Development
 
-This addon is under active development and may change frequently.
+**DISCLAIMER:** This addon is under active development and may change frequently!
+
+## Installation
+
+Since this addon is not yet published on AnkiWeb, it must be installed manually.
+
+1. Download or clone this repository:
+  ```bash
+  git clone https://github.com/YOUR\_USERNAME/code-your-answer.git
+  ```
+2. Locate your Anki addons folder:
+    - Linux: `~/.local/share/Anki2/addons21/`
+    - macOS: `~/Library/Application Support/Anki2/addons21/`
+    - Windows: `%APPDATA%\Anki2\addons21\`   
+3. Copy the project folder into `addons21/` (`addons21/code-your-answer/`)
+4. Restart Anki.
+5. The addon will initialize automatically on startup.
