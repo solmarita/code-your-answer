@@ -25,9 +25,14 @@ Since this addon is not yet published on AnkiWeb, it must be installed manually.
   git clone https://github.com/solmarita/code-your-answer.git
   ```
 2. Locate your Anki addons folder:
-    - Linux: `~/.local/share/Anki2/addons21/`
-    - macOS: `~/Library/Application Support/Anki2/addons21/`
-    - Windows: `%APPDATA%\Anki2\addons21\`   
-3. Copy the project folder into `addons21/` (`addons21/code-your-answer/`)
+    - Open Anki, go to `Tools > Add-ons` menu.
+    - Click `View Files`, Anki will open the top-level `addons21` directory.
+    - If an add-on is selected, Anki may open that add-on’s folder instead — in that case, go up one level to reach the main `addons21` directory.
+    - Typical addon folder locations
+        - **Linux:** `~/.local/share/Anki2/addons21/` 
+        - **macOS:** `~/Library/Application Support/Anki2/addons21/`
+        - **Windows:** `%APPDATA%\Anki2\addons21\`
+3. Copy the project folder into `addons21/` (i.e., `addons21/code-your-answer/`).
 4. Restart Anki.
 5. The addon will initialize automatically on startup.
+
