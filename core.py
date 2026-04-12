@@ -38,6 +38,15 @@ def load_template(file_name: str) -> str:
 
     return file_path.read_text(encoding="utf-8")
 
+def fix_vite_paths(html: str) -> str:
+    return html.replace(
+        'src="/assets/',
+        'src="frontend/dist/assets/'
+    ).replace(
+        'href="/assets/',
+        'href="frontend/dist/assets/'
+    )
+
 ## Model Functions
 
 def model_exists(name: str) -> bool:
@@ -54,7 +63,6 @@ def model_exists(name: str) -> bool:
     return any(
         model["name"] == name for model in mw.col.models.all()
     )
-
 
 def create_model(name: str, fields: list[str]) -> None:
     """
@@ -80,8 +88,8 @@ def create_model(name: str, fields: list[str]) -> None:
     # templates
     template = mw.col.models.new_template(CYA_MODEL["name"])
 
-    front_html = load_template("front.html")
-    back_html = load_template("back.html")
+    front_html = fix_vite_paths(load_template("front.html"))
+    back_html = fix_vite_paths(load_template("back.html"))
 
     template["qfmt"] = front_html
     template["afmt"] = back_html
