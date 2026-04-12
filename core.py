@@ -30,8 +30,11 @@ def load_template(file_name: str) -> str:
     Returns:
         Template content as UTF-8 text.
     """
-    base = Path(__file__).parent / "templates"
+    base = Path(__file__).parent / "frontend" / "dist"
     file_path = base / file_name
+
+    if not file_path.exists():
+        raise FileNotFoundError(f"Template not found: {file_path}")
 
     return file_path.read_text(encoding="utf-8")
 

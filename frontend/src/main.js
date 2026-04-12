@@ -1,60 +1,78 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+import { EditorView, basicSetup } from "codemirror";
+import { EditorState } from "@codemirror/state";
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src=${viteLogo} class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+import { oneDark } from "@codemirror/theme-one-dark";
 
-<div class="ticks"></div>
+import { keymap } from "@codemirror/view";
+import { closeBrackets } from "@codemirror/autocomplete";
+import { bracketMatching } from "@codemirror/language";
+import { indentWithTab } from "@codemirror/commands";
+import { autocompletion } from "@codemirror/autocomplete"
+/**
+ * LANGUAGE REGISTRY
+ * Each entry is a loader function that:
+ * 1. dynamically imports the language package
+ * 2. returns the CodeMirror extension
+ */
+const languageRegistry = {
+  javascript: async () => {
+    const mod = await import("@codemirror/lang-javascript");
+    return mod.javascript();
+  },
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src=${viteLogo} alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+  python: async () => {
+    const mod = await import("@codemirror/lang-python");
+    return mod.python();
+  },
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+  // ─────────────────────────────
+  // Fallback template (for future languages)
+  // If a package doesn’t expose `mod.lang()`,
+  // you can handle it like this:
+  //
+  // sql: async () => {
+  //   const mod = await import("@codemirror/lang-sql");
+  //   return mod.sqlLanguage; // or LanguageSupport wrapper
+  // },
+  // ─────────────────────────────
+};
 
-setupCounter(document.querySelector('#counter'))
+/**
+ * Loads the language extension safely
+ */
+async function getLanguageExtension(lang) {
+  const loader = languageRegistry[lang];
+
+  if (!loader) return [];
+
+  return await loader();
+}
+
+/**
+ * MAIN APP
+ */
+async function main() {
+  const currentLanguage = "python"; // change to your language, e.g., "javascript"
+
+  const languageExtension = await getLanguageExtension(currentLanguage);
+
+  const state = EditorState.create({
+    doc: "print('Hello, World!');",
+    extensions: [
+      basicSetup,
+      languageExtension,
+      oneDark,
+      closeBrackets(),
+      bracketMatching(),
+      keymap.of([indentWithTab]),
+      autocompletion({ override: [] }), // Disable autocompletion by providing an empty array as override 
+    ],
+  });
+
+  new EditorView({
+    state,
+    parent: document.getElementById("editor"),
+  });
+}
+
+main();
