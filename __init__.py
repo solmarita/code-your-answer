@@ -80,15 +80,15 @@ def create_model(name: str, fields: list[str]) -> None:
     Example:
         >>> create_model("Code Your Ans", ["Front", "Back", "Back Extra", "Language"])
     """
-
+    # Create new model
     model = mw.col.models.new(name)
 
-    # fields
+    # Add fields
     for field_name in fields:
         field = mw.col.models.new_field(field_name)
         mw.col.models.add_field(model, field)
     
-    # templates
+    # Add card templates
     template = mw.col.models.new_template(CYA_MODEL["name"])
 
     front_html = fix_vite_paths(load_template("front.html"))
@@ -98,40 +98,47 @@ def create_model(name: str, fields: list[str]) -> None:
     template["afmt"] = back_html
     
     mw.col.models.add_template(model, template)
+
+    # Save to the collection
     mw.col.models.add(model)
 
-
-def ensure_model_exists(name: str, fields: list[str]) -> None:
+def update_model_templates(model) -> None:
     """
-    Ensures a model exists. Create it if missing.
+    Updates the front and back templates of an existing Anki model.
+
+    This overwrites the template HTML without modifying fields or notes.
+    Safe to run on every startup.
 
     Args:
-        name: The name of the model (Anki Note Type).
-        fields: A list of the model's field names.
-    
+        model: The Anki model (note type) to update.
+
     Returns:
         None
     """
+    front_html = fix_vite_paths(load_template("front.html"))
+    back_html = fix_vite_paths(load_template("back.html"))
 
-    if model_exists(name):
-        return
-    
-    create_model(name, fields)
+    template = model["tmpls"][0]
+
+    template["qfmt"] = front_html
+    template["afmt"] = back_html
+
+    mw.col.models.save(model)
+    mw.col.models.flush()
 
 ## Setup
 
 def init_cya() -> None:
     """
-    Creates the Code Your Answer note type (model) if it doesn't exists.
+    Ensure model exists and update templates on startup.
     """
-    ensure_model_exists(
-        CYA_MODEL["name"],
-        CYA_MODEL["fields"]
-    )
+    model = mw.col.models.by_name(CYA_MODEL["name"])
 
-# Addon Entry Point
+    if not model:
+        create_model(CYA_MODEL["name"], CYA_MODEL["fields"])
+        return
 
-def main():
-    gui_hooks.profile_did_open.append(init_cya)
+    update_model_templates(model)
 
-main()
+# Register addon initialization
+gui_hooks.profile_did_open.append(init_cya)
