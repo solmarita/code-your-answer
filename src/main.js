@@ -8,6 +8,9 @@ import { closeBrackets } from "@codemirror/autocomplete";
 import { bracketMatching } from "@codemirror/language";
 import { indentWithTab } from "@codemirror/commands";
 import { autocompletion } from "@codemirror/autocomplete"
+
+import "./style.css"
+
 /**
  * LANGUAGE REGISTRY
  * Each entry is a loader function that:

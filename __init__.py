@@ -140,5 +140,5 @@ def init_cya() -> None:
 
     update_model_templates(model)
 
-# Register addon initialization
+# Addon init
 gui_hooks.profile_did_open.append(init_cya)
