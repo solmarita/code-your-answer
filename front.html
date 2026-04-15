@@ -1,4 +1,4 @@
-<div class="cya-root">
+<div class="cya-root cya-front">
     {{Front}}
     <br>
     <br>
@@ -6,3 +6,17 @@
 </div>
 
 <script type="module" src="/src/main.js"></script>
+
+<script>
+    function tryInitialize() {
+        // If we are on the back, stop immediately
+        if (document.querySelector(".cya-back")) return;
+
+        if (window.initCyaEditor) {
+            window.initCyaEditor();
+        } else {
+            setTimeout(tryInitialize, 50);
+        }
+    }
+    tryInitialize();
+</script>

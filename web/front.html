@@ -1,9 +1,24 @@
-<script type="module" crossorigin src="/assets/front-dyTi-4Md.js"></script>
+<script type="module" crossorigin src="/assets/front-D5JOLeuG.js"></script>
 <link rel="modulepreload" crossorigin href="/assets/dist-c75cAlXr.js">
-<link rel="stylesheet" crossorigin href="/assets/front-CnpnWPks.css">
-<div class="cya-root">
+<link rel="stylesheet" crossorigin href="/assets/front-RQG1D-7U.css">
+<div class="cya-root cya-front">
     {{Front}}
     <br>
     <br>
     <div id="editor"></div>
 </div>
+
+
+<script>
+    function tryInitialize() {
+        // If we are on the back, stop immediately
+        if (document.querySelector(".cya-back")) return;
+
+        if (window.initCyaEditor) {
+            window.initCyaEditor();
+        } else {
+            setTimeout(tryInitialize, 50);
+        }
+    }
+    tryInitialize();
+</script>

@@ -54,7 +54,7 @@ async function getLanguageExtension(lang) {
 /**
  * MAIN APP
  */
-async function main() {
+async function createEditor() {
   const currentLanguage = "python"; // change to your language, e.g., "javascript"
 
   const languageExtension = await getLanguageExtension(currentLanguage);
@@ -78,4 +78,6 @@ async function main() {
   });
 }
 
-main();
+//createEditor();
+// Attach to the window object so the template can find it
+window.initCyaEditor = createEditor;
