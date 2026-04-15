@@ -1,4 +1,4 @@
-<script type="module" crossorigin src="/assets/front-D5JOLeuG.js"></script>
+<script type="module" crossorigin src="/assets/front-DdvWkSN5.js"></script>
 <link rel="modulepreload" crossorigin href="/assets/dist-c75cAlXr.js">
 <link rel="stylesheet" crossorigin href="/assets/front-RQG1D-7U.css">
 <div class="cya-root cya-front">
@@ -10,12 +10,17 @@
 
 
 <script>
+
     function tryInitialize() {
-        // If we are on the back, stop immediately
+        // Guard clause: do nothing if we are on the back side
         if (document.querySelector(".cya-back")) return;
+        
+        // Get card language from the language field
+        const langFromAnki = ("{{Language}}" || "text").trim().toLowerCase();
 
         if (window.initCyaEditor) {
-            window.initCyaEditor();
+            // Pass the variable to the function
+            window.initCyaEditor(langFromAnki);
         } else {
             setTimeout(tryInitialize, 50);
         }

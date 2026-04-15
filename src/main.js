@@ -3,7 +3,7 @@ import { EditorState } from "@codemirror/state";
 
 import { oneDark } from "@codemirror/theme-one-dark";
 
-import { keymap } from "@codemirror/view";
+import { keymap, showPanel } from "@codemirror/view";
 import { closeBrackets } from "@codemirror/autocomplete";
 import { bracketMatching } from "@codemirror/language";
 import { indentWithTab } from "@codemirror/commands";
@@ -12,72 +12,100 @@ import { autocompletion } from "@codemirror/autocomplete"
 import "./style.css"
 
 /**
- * LANGUAGE REGISTRY
- * Each entry is a loader function that:
- * 1. dynamically imports the language package
- * 2. returns the CodeMirror extension
+ * A list of supported languages for the editor.
+ * * Each "key" (like 'python') is the name typed in Anki's card Language field.
+ * The function inside loads the necessary code for the specified language only when it's needed.
  */
 const languageRegistry = {
   javascript: async () => {
-    const mod = await import("@codemirror/lang-javascript");
-    return mod.javascript();
+    const { javascript } = await import("@codemirror/lang-javascript");
+    return javascript();
   },
 
   python: async () => {
-    const mod = await import("@codemirror/lang-python");
-    return mod.python();
+    const { python } = await import("@codemirror/lang-python");
+    return python();
   },
 
-  // ─────────────────────────────
-  // Fallback template (for future languages)
-  // If a package doesn’t expose `mod.lang()`,
-  // you can handle it like this:
-  //
-  // sql: async () => {
-  //   const mod = await import("@codemirror/lang-sql");
-  //   return mod.sqlLanguage; // or LanguageSupport wrapper
-  // },
-  // ─────────────────────────────
+  // If no language is found, we use this as the default/plain text setting.
+  text: async () => [],
 };
 
 /**
- * Loads the language extension safely
+ * Looks for the specified language. 
+ * If it doesn't find it (or if the field is empty), it returns the 'text' version.
  */
 async function getLanguageExtension(lang) {
-  const loader = languageRegistry[lang];
-
-  if (!loader) return [];
-
+  // Check if the language exists; if not, use the 'text' default
+  const loader = languageRegistry[lang] || languageRegistry.text;
+  
+  // Run the loader to get the code for that language
   return await loader();
 }
 
 /**
- * MAIN APP
+ * Creates the small language label at the bottom of the editor.
+ * * @param {string} lang - The language name to display.
  */
-async function createEditor() {
-  const currentLanguage = "python"; // change to your language, e.g., "javascript"
+function languageBadge(lang) {
+  return (view) => {
+    let dom = document.createElement("div");
+    dom.className = "cm-language-badge";
+    dom.textContent = `> ${lang.toUpperCase()}`; // Makes the text uppercase (e.g., '> PYTHON')
+    
+    // Simple styles for the label
+    dom.style.padding = "4px 8px";
+    dom.style.background = "#21252b";
+    dom.style.color = "#abb2bf";
+    dom.style.fontSize = "12px";
+    dom.style.fontWeight = "bold";
+    dom.style.borderBottom = "1px solid #444";
 
-  const languageExtension = await getLanguageExtension(currentLanguage);
+    // "top: false" makes sure it stays at the bottom of the editor
+    return { dom, top: false };
+  };
+}
 
+/**
+ * The main function to set up your CodeMirror editor.
+ * @param {string} lang - The language name (e.g., 'python') passed from Anki's template.
+ */
+async function createEditor(lang) {
+  // Find the HTML div where the editor should live
+  const parent = document.getElementById("editor");
+  
+  // Stop if the editor container is missing or if the editor is already running
+  if (!parent || parent.querySelector(".cm-editor")) return;
+
+  // Ask the language registry to find the right syntax highlighting for the specified language
+  const languageExtension = await getLanguageExtension(lang);
+  
+  // Set up the editor's configuration
   const state = EditorState.create({
-    doc: "print('Hello, World!');",
     extensions: [
-      basicSetup,
-      languageExtension,
-      oneDark,
-      closeBrackets(),
-      bracketMatching(),
-      keymap.of([indentWithTab]),
-      autocompletion({ override: [] }), // Disable autocompletion by providing an empty array as override 
+      basicSetup,           // Includes essential features like line numbers and history
+      oneDark,              // Sets the visual dark theme
+      languageExtension,    // Applies syntax highlighting for the selected language
+      showPanel.of(languageBadge(lang)), // Adds the language label to the bottom
+      closeBrackets(),      // Automatically closes (), [], and {}
+      bracketMatching(),    // Highlights matching brackets
+      keymap.of([indentWithTab]), // Allows using the Tab key to indent
+      autocompletion({ override: [] }), // Disables autocomplete
+      
+      // Forces the editor to be 400px tall and styles the bottom panel
+      EditorView.theme({
+        "&": { height: "400px" },
+        ".cm-panels-bottom": { borderTop: "1px solid #444 !important" }
+      })
     ],
   });
 
+  // Finally, render the editor into the HTML container
   new EditorView({
     state,
-    parent: document.getElementById("editor"),
+    parent: parent,
   });
 }
 
-//createEditor();
 // Attach to the window object so the template can find it
 window.initCyaEditor = createEditor;

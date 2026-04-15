@@ -8,12 +8,17 @@
 <script type="module" src="/src/main.js"></script>
 
 <script>
+
     function tryInitialize() {
-        // If we are on the back, stop immediately
+        // Guard clause: do nothing if we are on the back side
         if (document.querySelector(".cya-back")) return;
+        
+        // Get card language from the language field
+        const langFromAnki = ("{{Language}}" || "text").trim().toLowerCase();
 
         if (window.initCyaEditor) {
-            window.initCyaEditor();
+            // Pass the variable to the function
+            window.initCyaEditor(langFromAnki);
         } else {
             setTimeout(tryInitialize, 50);
         }
