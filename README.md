@@ -2,6 +2,16 @@
 
 An Anki addon for practicing coding flashcards by typing answers in an IDE-style input field and comparing them against a predefined solution upon submission.
 
+## Development
+
+**DISCLAIMER:** This addon is under active development and may change frequently!
+
+## ⚠️ Compatibility
+
+This add-on is **only supported on Anki Desktop**.
+
+It relies on features such as custom JavaScript bundles, local asset loading, and add-on integrations that are not available in AnkiWeb or other restricted Anki environments.
+
 ## Features
 
 - Creates a custom **"Code Your Answer"** note type with predefined fields:
@@ -11,10 +21,6 @@ An Anki addon for practicing coding flashcards by typing answers in an IDE-style
     - **Language**: Editor language used for code input
 - Adds an IDE-style input field for writing coding answers on the front of cards.
 - Includes a built-in comparison system to evaluate typed answers against expected solutions.
-
-## Development
-
-**DISCLAIMER:** This addon is under active development and may change frequently!
 
 ## Installation
 
