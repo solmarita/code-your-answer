@@ -14,16 +14,26 @@ It relies on features such as custom JavaScript bundles, local asset loading, an
 
 ## Features
 
-- **IDE-Style Input**: Powered by CodeMirror.
-- **Three-Part Review**:
-    - **Diff**: A character-level comparison between your attempt and the predefined solution.
-    - **Your Attempt**: A syntax-highlighted view of exactly what you typed for your convenience.
-    - **Expected Answer**: A syntax-highlighted view of the predefined solution for your convenience.
 - **Custom Note Type**:
     - **Front**: The coding prompt or question.
     - **Language**: Sets the highlighting and editor rules (e.g., `python`, `javascript`).
     - **Back**: The raw code solution.
-    - **Back Extra**: Context, explanations, or documentation.       
+    - **Back Extra**: Context, explanations, or documentation.   
+- **IDE-Style Input**: Powered by CodeMirror.
+- **Three-Part Review**:
+    - **Diff**: A character-level comparison between your attempt and the predefined solution.
+    - **Your Attempt**: A syntax-highlighted view of exactly what you typed for your convenience.
+    - **Expected Answer**: A syntax-highlighted view of the predefined solution for your convenience.  
+  
+### Understanding the Diff
+
+The Diff section provides a comparison of your code against the predefined solution. It uses the following color-coding to highlight discrepancies:
+
+| Color | Meaning | Description |
+| --- | --- | --- |
+| **Green** | **Match** | Correct characters that align perfectly with the solution. |
+| **Red** | **Missed** | Characters in the solution that you forgot to type. |
+| **Blue** | **Extra** | Additional characters, typos, or unnecessary characters found in your attempt. |
 
 ## Keyboard Shortcuts
 
