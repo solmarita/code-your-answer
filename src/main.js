@@ -102,6 +102,9 @@ async function createEditor(lang) {
   const parent = document.getElementById("editor");
   if (!parent || parent.querySelector(".cm-editor")) return;
 
+  // Clear any old data when the editor first loads to ensure a fresh start
+  sessionStorage.removeItem("cya_editor_content");
+
   // Everything is neatly resolved here
   const { extension, name } = await getLanguageExtension(lang);
   
@@ -115,6 +118,14 @@ async function createEditor(lang) {
       bracketMatching(),    // Highlights matching brackets
       keymap.of([indentWithTab]), // Allows using the Tab key to indent
       autocompletion({ override: [] }), // Disables autocomplete
+
+      // Sync editor state to sessionStorage for downstream diffing
+      EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          const currentText = update.state.doc.toString();
+          sessionStorage.setItem("cya_editor_content", currentText);
+        }
+      }),
       
       // Forces the editor to be 400px tall and styles the bottom panel
       EditorView.theme({
