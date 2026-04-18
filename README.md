@@ -2,6 +2,8 @@
 
 An Anki addon for practicing coding flashcards by typing answers in an IDE-style input field and comparing them against a predefined solution upon submission.
 
+![Code Your Answer Review Interface](./docs/review-loop-demo.png)
+
 ## Development
 
 **DISCLAIMER:** This addon is under active development and may change frequently!
