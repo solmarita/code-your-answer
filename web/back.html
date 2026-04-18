@@ -2,7 +2,10 @@
 <div class="cya-root cya-back">
     {{FrontSide}}
     <hr>
-    {{Back}}
+    <div id="diff-output"></div>
+    <hr>
+    <h4>Expected Answer</h4>
+    <div id="anki-back-field">{{Back}}</div>
     <br>
     {{Back Extra}}
     <hr>
@@ -10,3 +13,16 @@
     <br>
     {{Obsidian Context Field}}
 </div>
+
+<script>
+  function tryRenderDiff() {
+    if (window.renderCyaDiff) {
+        // Grab the raw HTML from the hidden div
+        const correctHTML = document.getElementById('anki-back-field').innerHTML;
+        window.renderCyaDiff(correctHTML, "diff-output");
+    } else {
+        setTimeout(tryRenderDiff, 50);
+    }
+  }
+  tryRenderDiff();
+</script>

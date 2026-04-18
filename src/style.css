@@ -1,3 +1,12 @@
+/* Card container (override Anki defaults) */
+.card {
+    text-align: left;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Code Mirror */
+
 .cya-root{
     text-align: left;
 }
@@ -18,9 +27,40 @@
     overflow: auto;
 }
 
-/* Card container (override Anki defaults) */
-.card {
-    text-align: left;
-    max-width: 900px;
-    margin: 0 auto;
+/* JS DIFF */
+
+.cya-diff-inline {
+  font-family: 'Fira Code', monospace;
+  line-height: 1.8; /* Increased line height for better legibility */
+  white-space: pre-wrap;
+  padding: 20px;
+  background-color: #282c34; /* One Dark Background */
+  border-radius: 6px;
+  color: #ffffff; /* Default base text to white */
+}
+
+.cya-diff-inline span {
+  padding: 2px 0; /* Slight vertical padding for the background blocks */
+}
+
+/* GREEN: Correct - "Good Job" */
+.diff-match {
+  background-color: #2d612c; /* Deep forest green */
+  color: #ffffff !important;
+}
+
+/* RED: Missing - "Screaming: You missed this" */
+.diff-missed {
+  background-color: #a80000; /* Bright, urgent red */
+  color: #ffffff !important;
+  font-weight: bold;
+  /* Adds a little 'block' feel to the missing part */
+  border: 1px solid #ff4d4d;
+}
+
+/* BLUE: Extra - "Noise: You typed this extra" */
+.diff-extra {
+  background-color: #1a4d80; /* Deep blue */
+  color: #ffffff !important;
+  text-decoration: line-through;
 }

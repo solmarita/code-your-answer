@@ -9,7 +9,22 @@ import { bracketMatching } from "@codemirror/language";
 import { indentWithTab } from "@codemirror/commands";
 import { autocompletion } from "@codemirror/autocomplete"
 
+import * as Diff from 'diff';
+
 import "./style.css"
+
+/* ---- HELPERS & REGISTRY ---- */
+
+const STORAGE_KEY = 'cya_editor_content';
+
+/**
+ * Strips Anki's HTML formatting to get raw code for the diff engine.
+ */
+function htmlToPlainText(html) {
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  return temp.textContent || temp.innerText || "";
+}
 
 /**
  * Registry mapping keys to their specific language loading logic.
@@ -120,12 +135,11 @@ async function createEditor(lang) {
       autocompletion({ override: [] }), // Disables autocomplete
 
       // Sync editor state to sessionStorage for downstream diffing
-      EditorView.updateListener.of((update) => {
+        EditorView.updateListener.of((update) => {
         if (update.docChanged) {
-          const currentText = update.state.doc.toString();
-          sessionStorage.setItem("cya_editor_content", currentText);
+          sessionStorage.setItem(STORAGE_KEY, update.state.doc.toString());
         }
-      }),
+        }),
       
       // Forces the editor to be 400px tall and styles the bottom panel
       EditorView.theme({
@@ -140,3 +154,47 @@ async function createEditor(lang) {
 
 // Attach to the window object so the template can find it
 window.initCyaEditor = createEditor;
+
+// ----------------- DIFF -------------------//
+
+/**
+ * Inline Diff Logic
+ * Green: Correct (Match)
+ * Red: Missing (Was in Solution, but User missed it)
+ * Blue: Extra (User typed it, but it wasn't expected)
+ */
+function renderCyaDiff(correctCodeHTML, targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  const typedInput = sessionStorage.getItem(STORAGE_KEY) || "";
+  const solution = htmlToPlainText(correctCodeHTML);
+
+  // We compare User Attempt (Old) vs Solution (New)
+  const diff = Diff.diffChars(typedInput.trimEnd(), solution.trimEnd());
+
+  let html = '<div class="cya-diff-inline">';
+
+  diff.forEach((part) => {
+    if (!part.added && !part.removed) {
+      // 1. GREEN: Both in expected and user typed.
+      html += `<span class="diff-match">${part.value}</span>`;
+    } 
+    else if (part.added) {
+      // 2. RED: In expected answer, but missing in user answer.
+      // (Added to the solution relative to the user's input)
+      html += `<span class="diff-missed">${part.value}</span>`;
+    } 
+    else if (part.removed) {
+      // 3. BLUE: In user typed but not in expected.
+      // (Removed from the user's input to get to the solution)
+      html += `<span class="diff-extra">${part.value}</span>`;
+    }
+  });
+
+  html += '</div>';
+  target.innerHTML = html;
+}
+
+// Ensure the Back template can find the function
+window.renderCyaDiff = renderCyaDiff;
