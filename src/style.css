@@ -24,3 +24,69 @@
     max-width: 900px;
     margin: 0 auto;
 }
+
+/** DIFF **/
+
+.cya-diff-inline {
+  font-family: 'Fira Code', monospace;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  padding: 20px;
+  background-color: #222;
+  border-radius: 6px;
+  color: #ffffff;
+}
+
+/* Correct - Block Green */
+.diff-match {
+  background-color: #2d612c;
+  color: #ffffff !important;
+}
+
+/* Missed - Block Red */
+.diff-missed {
+  background-color: #a80000;
+  color: #ffffff !important;
+  font-weight: bold;
+  border: 1px solid #ff4d4d;
+}
+
+/* Extra - Block Blue */
+.diff-extra {
+  background-color: #1a4d80;
+  color: #ffffff !important;
+  text-decoration: line-through;
+}
+
+/* Beautified Answer Container */
+#beautified-answer pre {
+    margin: 0;
+    padding: 15px;
+    background: #222;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+/* hljs */
+
+/* This ensures the background color matches the theme's background */
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 1.5em;
+    background: #222 important; /* One Dark background hex #282c34 */
+    color: #abb2bf;
+    border-radius: 6px;
+    font-family: 'Fira Code', monospace;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+/* Optional: Style the scrollbar to look dark and thin */
+.hljs::-webkit-scrollbar {
+    height: 8px;
+}
+.hljs::-webkit-scrollbar-thumb {
+    background: #3e4451;
+    border-radius: 4px;
+}

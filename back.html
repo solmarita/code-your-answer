@@ -1,12 +1,42 @@
-
 <div class="cya-root cya-back">
     {{FrontSide}}
+    
     <hr>
-    {{Back}}
+    <h4>Diff</h4>
+    <div id="diff-output"></div>
+    
+    <hr>
+    <h4>Your Attempt</h4>
+    <div id="user-attempt"></div>
+
+    <hr>
+    <h4>Expected Answer</h4>
+    <div id="beautified-answer"></div>
+    
+    <div id="anki-back-field" style="display:none;">{{Back}}</div>
+
     <br>
     {{Back Extra}}
-    <hr>
-    {{Obsidian File Link}}
-    <br>
-    {{Obsidian Context Field}}
 </div>
+
+<script>
+  (function tryRender() {
+    const isBack = document.querySelector('.cya-back');
+    if (!isBack) return;
+
+    const field = document.getElementById('anki-back-field');
+    const lang = "{{Language}}".trim().toLowerCase() || "python";
+
+    if (window.renderCyaDiff && field) {
+        window.renderCyaDiff(
+            field.innerHTML, 
+            "diff-output", 
+            "beautified-answer", 
+            "user-attempt", // Added target
+            lang
+        );
+    } else {
+        setTimeout(tryRender, 50);
+    }
+  })();
+</script>

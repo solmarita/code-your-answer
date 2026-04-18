@@ -5,31 +5,50 @@ import { oneDark } from "@codemirror/theme-one-dark";
 
 import { keymap, showPanel } from "@codemirror/view";
 import { closeBrackets } from "@codemirror/autocomplete";
-import { bracketMatching } from "@codemirror/language";
+import { bracketMatching, indentUnit } from "@codemirror/language";
 import { indentWithTab } from "@codemirror/commands";
 import { autocompletion } from "@codemirror/autocomplete"
 
-import "./style.css"
+import * as Diff from 'diff';
+
+import hljs from 'highlight.js/lib/core';
+import 'highlight.js/styles/atom-one-dark.css';
+import plaintext from 'highlight.js/lib/languages/plaintext';
+hljs.registerLanguage('plaintext', plaintext); //Register plaintext immediately as the fallback
+
+import "./style.css";
+
+const STORAGE_KEY = 'cya_editor_content';
 
 /**
  * Registry mapping keys to their specific language loading logic.
  * Uses destructuring for readability and modularity.
  */
-const languageRegistry = {
-  javascript: async () => {
-    const { javascript } = await import("@codemirror/lang-javascript");
-    return { extension: javascript(), name: "JavaScript" };
-  },
 
+const languageRegistry = {
   python: async () => {
-    const { python } = await import("@codemirror/lang-python");
+    // Dynamically import both packages in parallel
+    const [{ python }, { default: pyGrammar }] = await Promise.all([
+      import("@codemirror/lang-python"),
+      import("highlight.js/lib/languages/python")
+    ]);
+    
+    // Register the grammar for the Back-side beautifier
+    if (!hljs.getLanguage('python')) hljs.registerLanguage('python', pyGrammar);
+    
     return { extension: python(), name: "Python" };
   },
 
-  text: async () => ({
-    extension: [], 
-    name: "Plain Text"
-  }),
+  javascript: async () => {
+    const [{ javascript }, { default: jsGrammar }] = await Promise.all([
+      import("@codemirror/lang-javascript"),
+      import("highlight.js/lib/languages/javascript")
+    ]);
+
+    if (!hljs.getLanguage('javascript')) hljs.registerLanguage('javascript', jsGrammar);
+    
+    return { extension: javascript(), name: "JavaScript" };
+  }
 };
 
 /**
@@ -113,6 +132,7 @@ async function createEditor(lang) {
       basicSetup,           // Includes essential features like line numbers and history
       oneDark,              // Sets the visual dark theme
       extension,    // Applies syntax highlighting for the selected language
+      indentUnit.of("    "), // Set default indent unit to 4 spaces
       showPanel.of(languageBadge(name)), // Adds the language label to the bottom
       closeBrackets(),      // Automatically closes (), [], and {}
       bracketMatching(),    // Highlights matching brackets
@@ -123,7 +143,7 @@ async function createEditor(lang) {
       EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           const currentText = update.state.doc.toString();
-          sessionStorage.setItem("cya_editor_content", currentText);
+          sessionStorage.setItem(STORAGE_KEY, currentText);
         }
       }),
       
@@ -140,3 +160,74 @@ async function createEditor(lang) {
 
 // Attach to the window object so the template can find it
 window.initCyaEditor = createEditor;
+
+
+/**
+ * Strips Anki/Obsidian HTML and normalizes line endings
+ */
+function htmlToPlainText(html) {
+  const temp = document.createElement("div");
+  let processed = html.replace(/<\/div>|<div>/gi, '\n')
+                      .replace(/<br\s*\/?>/gi, '\n');
+  temp.innerHTML = processed;
+  return temp.textContent || temp.innerText || "";
+}
+
+/**
+ * DIFF ENGINE
+ * Green: Match | Red: Missed (In solution) | Blue: Extra (In typed)
+ */
+
+function renderCyaDiff(correctCodeHTML, diffTargetId, answerTargetId, attemptTargetId, lang) {
+  const diffTarget = document.getElementById(diffTargetId);
+  const answerTarget = document.getElementById(answerTargetId);
+  const attemptTarget = document.getElementById(attemptTargetId);
+  
+  const typedInput = sessionStorage.getItem("cya_editor_content") || "";
+  
+  // Clean the solution HTML
+  const temp = document.createElement("div");
+  let processed = correctCodeHTML.replace(/<\/div>|<div>/gi, '\n').replace(/<br\s*\/?>/gi, '\n');
+  temp.innerHTML = processed;
+  const solution = (temp.textContent || temp.innerText || "").trimEnd();
+
+  // 1. Render the Diff
+  const diff = Diff.diffChars(typedInput.trimEnd(), solution);
+  let diffHtml = '<div class="cya-diff-inline">';
+  diff.forEach((part) => {
+    if (!part.added && !part.removed) {
+      diffHtml += `<span class="diff-match">${part.value}</span>`;
+    } else if (part.added) {
+      diffHtml += `<span class="diff-missed">${part.value}</span>`;
+    } else if (part.removed) {
+      diffHtml += `<span class="diff-extra">${part.value}</span>`;
+    }
+  });
+  diffHtml += '</div>';
+  if (diffTarget) diffTarget.innerHTML = diffHtml;
+
+  // Helper for highlighting
+  const highlightCode = (code) => {
+    try {
+      const targetLang = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language: targetLang }).value;
+    } catch (e) {
+      return hljs.highlightAuto(code).value;
+    }
+  };
+
+  // 2. Render Beautified User Attempt
+  if (attemptTarget) {
+    const highlightedAttempt = highlightCode(typedInput.trimEnd() || "# No input detected");
+    attemptTarget.innerHTML = `<pre><code class="hljs">${highlightedAttempt}</code></pre>`;
+  }
+
+  // 3. Render Beautified Expected Answer
+  if (answerTarget) {
+    const highlightedSolution = highlightCode(solution);
+    answerTarget.innerHTML = `<pre><code class="hljs">${highlightedSolution}</code></pre>`;
+  }
+}
+
+// Export to window for access from the Anki Template
+window.renderCyaDiff = renderCyaDiff;
