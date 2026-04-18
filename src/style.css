@@ -39,23 +39,20 @@
 
 /* Correct - Block Green */
 .diff-match {
-  background-color: #2d612c;
-  color: #ffffff !important;
+  background-color: #afa;
+  color: #000 !important;
 }
 
-/* Missed - Block Red */
+/* Missed - Block Grey */
 .diff-missed {
-  background-color: #a80000;
-  color: #ffffff !important;
-  font-weight: bold;
-  border: 1px solid #ff4d4d;
+  background-color: #ccc;
+  color: #000 !important;
 }
 
-/* Extra - Block Blue */
+/* Extra - Block Red */
 .diff-extra {
-  background-color: #1a4d80;
-  color: #ffffff !important;
-  text-decoration: line-through;
+  background-color: #faa;
+  color: #000 !important;
 }
 
 /* Beautified Answer Container */

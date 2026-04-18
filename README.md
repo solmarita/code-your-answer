@@ -33,9 +33,9 @@ The Diff section provides a comparison of your code against the predefined solut
 
 | Color | Meaning | Description |
 | --- | --- | --- |
-| **Green** | **Match** | Correct characters that align perfectly with the solution. |
-| **Red** | **Missed** | Characters in the solution that you forgot to type. |
-| **Blue** | **Extra** | Additional characters, typos, or unnecessary characters found in your attempt. |
+| <span style="background-color: #afa; color: #000; padding: 2px 4px;">Green Block</span> | **Match** | Characters you typed that match the solution exactly. |
+| <span style="background-color: #ccc; color: #000; padding: 2px 4px;">Grey Block</span> | **Omissions** | Code that is in the solution but is missing from your attempt. |
+| <span style="background-color: #faa; color: #000; padding: 2px 4px;">Red Block</span> | **Extra** | Characters you typed that are not in the solution (typos, new names, extra logic etc). |
 
 ## Keyboard Shortcuts
 
