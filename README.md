@@ -33,9 +33,9 @@ The Diff section provides a comparison of your code against the predefined solut
 
 | Color | Meaning | Description |
 | --- | --- | --- |
-| <span style="background-color: #afa; color: #000; padding: 2px 4px;">Green Block</span> | **Match** | Characters you typed that match the solution exactly. |
-| <span style="background-color: #ccc; color: #000; padding: 2px 4px;">Grey Block</span> | **Omissions** | Code that is in the solution but is missing from your attempt. |
-| <span style="background-color: #faa; color: #000; padding: 2px 4px;">Red Block</span> | **Extra** | Characters you typed that are not in the solution (typos, new names, extra logic etc). |
+| ![#f03c15](https://github.com/solmarita/code-your-answer/blob/main/docs/diff_shades/afa.png) Green| **Match** | Characters you typed that match the solution exactly. |
+| ![#f03c15](https://github.com/solmarita/code-your-answer/blob/main/docs/diff_shades/ccc.png) Grey| **Omissions** | Code that is in the solution but is missing from your attempt. |
+| ![#f03c15](https://github.com/solmarita/code-your-answer/blob/main/docs/diff_shades/faa.png) Red| **Extra** | Characters you typed that are not in the solution (typos, new names, extra logic etc). |
 
 ## Keyboard Shortcuts
 
