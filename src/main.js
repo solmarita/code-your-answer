@@ -129,6 +129,33 @@ async function createEditor(lang) {
   
   const state = EditorState.create({
     extensions: [
+      // CUSTOM COMMANDS FIRST
+      keymap.of([
+        {
+          key: "Ctrl-Enter",
+          run: (view) => {
+            // Direct call to Anki's bridge for showing the answer
+            if (typeof pycmd !== "undefined") {
+                pycmd("ans");
+            } else {
+                // Fallback for web-based testing
+                const btn = document.getElementById("ansbutton");
+                if (btn) btn.click();
+            }
+            return true; 
+          }
+        },
+        {
+          key: "Cmd-Enter",
+          run: (view) => {
+            if (typeof pycmd !== "undefined") pycmd("ans");
+            return true;
+          }
+        }
+      ]),
+
+      // DEFAULT COMMANDS SECOND
+
       basicSetup,           // Includes essential features like line numbers and history
       oneDark,              // Sets the visual dark theme
       extension,    // Applies syntax highlighting for the selected language
@@ -138,7 +165,6 @@ async function createEditor(lang) {
       bracketMatching(),    // Highlights matching brackets
       keymap.of([indentWithTab]), // Allows using the Tab key to indent
       autocompletion({ override: [] }), // Disables autocomplete
-
       // Sync editor state to sessionStorage for downstream diffing
       EditorView.updateListener.of((update) => {
         if (update.docChanged) {
@@ -146,7 +172,7 @@ async function createEditor(lang) {
           sessionStorage.setItem(STORAGE_KEY, currentText);
         }
       }),
-      
+
       // Forces the editor to be 400px tall and styles the bottom panel
       EditorView.theme({
         "&": { height: "400px" },
