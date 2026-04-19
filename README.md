@@ -1,6 +1,6 @@
 # Code Your Answer
 
-An Anki addon for practicing coding flashcards by typing answers in an IDE-style input field and comparing them against a predefined solution upon submission.
+An Anki addon for coding practice. Type your answers in an IDE-style input field and get an instant, character-level diff against the solution.
 
 ![Code Your Answer Review Interface](https://github.com/solmarita/code-your-answer/blob/main/docs/screens.png)
 
