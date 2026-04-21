@@ -44,18 +44,59 @@ Designed for a hands-on-keyboard workflow:
 - **`Tab`**: Inserts 4 spaces (standardized for all languages). 
 - **`Ctrl + Enter`** (or `Cmd + Enter`): Submits your answer and reveals the back of the card.
 
+## Supported Languages
+
+| Language | Acceptable Aliases (Case-Insensitive) |
+| --- | --- |
+| **JavaScript** | `js`, `jsx`, `node`, `javascript`, `ecmascript` |
+| **TypeScript** | `ts`, `tsx`, `typescript` |
+| **Python** | `py`, `py3`, `python3`, `python`, `pypy` |
+| **Rust** | `rs`, `rustlang`, `rust` |
+| **PHP** | `php`, `php8`, `php7` |
+| **Go** | `go`, `golang` |
+| **Zig** | `zig`, `ziglang` |
+| **C++** | `cpp`, `c++`, `cc`, `hpp` |
+| **C** | `c`, `h` |
+| **Java** | `java`, `jar` |
+| **C#** | `cs`, `csharp`, `c#` |
+| **HTML** | `html`, `htm` |
+| **CSS** | `css` |
+| **SQL** | `sql`, `mysql`, `postgres`, `psql` |
+| **Shell** | `sh`, `bash`, `zsh`, `shell`, `batch`, `ps1` |
+| **YAML** | `yaml`, `yml` |
+| **JSON** | `json` |
+| **Markdown** | `md`, `markdown` |
+| **Swift** | `swift` |
+| **Kotlin** | `kt`, `kotlin` |
+| **Dart** | `dart`, `flutter` |
+| **Ruby** | `rb`, `ruby`, `rails` |
+| **Scala** | `scala` |
+| **R** | `r`, `rscript` |
+| **MATLAB** | `matlab`, `m` |
+
 ## Installation
 
 Since this addon is not yet published on AnkiWeb, it must be installed manually.
 
-1. **Clone the repository**:
+### Option 1: Download as a ZIP (Easiest)
+
+1. **Download the code**: Click the green **Code** button at the top of this page and select **Download ZIP**. 
+2. **Unzip the folder**: Extract the contents of the ZIP file on your computer.
+    
+### Option 2: Clone with Git (Best for Updates)
+
+If you have Git installed, run the following in your terminal:
 
 ```bash
 git clone https://github.com/solmarita/code-your-answer.git
-``` 
+```
 
-2. **Locate your Anki addons folder**:
-    - Open Anki, go to `Tools > Add-ons`.
-    - Click `View Files` to open the `addons21` directory. 
-3. **Copy the project folder** into `addons21/` (e.g., `addons21/code-your-answer/`).
-4. **Restart Anki**.
+### Finalizing the Install
+
+1. **Locate your Anki addons folder**:
+    
+    - Open Anki, go to `Tools > Add-ons`.  
+    - Click **View Files** to open the `addons21` directory.
+        
+2. **Copy the project folder**: Move the `code-your-answer` folder into the `addons21/` directory.
+3. **Restart Anki**: Close and reopen Anki to activate the addon.
