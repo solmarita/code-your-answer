@@ -43,7 +43,7 @@ The Diff section provides a comparison of your code against the predefined solut
 
 Designed for a hands-on-keyboard workflow:
 
-- **`Tab`**: Inserts 4 spaces (standardized for all languages). 
+- **`Tab`**: Performs **Indentation** by inserting 4 spaces (for all languges). This ensures your code structure is clean and readable, a standard requirement for almost all programming languages (especially Python!).
 - **`Ctrl + Enter`** (or `Cmd + Enter`): Submits your answer and reveals the back of the card.
 
 ## Supported Languages
