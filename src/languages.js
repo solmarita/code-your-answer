@@ -1,7 +1,7 @@
 import hljs from 'highlight.js/lib/core';
 
 /**
- * SOURCE OF TRUTH FOR LANG ALIASES (Human-friendly)
+ * LANG ALIASES (Human-friendly)
  */
 
 export const groupedAliases = {
@@ -40,7 +40,7 @@ export const groupedAliases = {
 };
 
 /**
- * GENERATED LOOKUP (Machine-friendly)
+ * GENERATED LANG ALIASES LOOKUP (Machine-friendly)
  * Flattens the map once at runtime for O(1) performance.
  */
 export const aliases = {};

@@ -45,7 +45,6 @@ const isAnkiNightMode = () => {
 * @param {string} lang - The raw language input.
  */
 async function getLanguageExtension(lang) {
-  // If lang is empty/null, return the "No Language" state immediately
   if (!lang) {
     const fallback = await languageRegistry.text();
     return { ...fallback, name: "No Language: Plain Text Mode" };
@@ -146,7 +145,7 @@ async function createEditor(lang) {
       closeBrackets(),      // Automatically closes (), [], and {}
       bracketMatching(),    // Highlights matching brackets
       keymap.of([indentWithTab]), // Allows using the Tab key to indent
-      autocompletion({ override: [] }), // Disables autocomplete
+      autocompletion({ override: [] }), // Disables autocomplete (preferred when learning to code!)
       
       // Sync editor state to sessionStorage for downstream diffing
       EditorView.updateListener.of((update) => {
@@ -172,7 +171,7 @@ window.initCyaEditor = createEditor;
 
 
 /**
- * Strips Anki/Obsidian HTML and normalizes line endings
+ * Strips Anki/Obsidian (if using Obsidian_to_Anki) HTML and normalizes line endings
  */
 function htmlToPlainText(html) {
   const temp = document.createElement("div");
@@ -184,7 +183,7 @@ function htmlToPlainText(html) {
 
 /**
  * DIFF ENGINE
- * Green: Match | Red: Missed (In solution) | Blue: Extra (In typed)
+ * Green: Match | Grey: Omission | Red: Extra
  */
 
 function renderCyaDiff(correctCodeHTML, diffTargetId, answerTargetId, attemptTargetId, lang) {
