@@ -37,6 +37,8 @@ The Diff section provides a comparison of your code against the predefined solut
 | ![#f03c15](https://github.com/solmarita/code-your-answer/blob/main/docs/diff_shades/ccc.png) Grey| **Omissions** | Code that is in the solution but is missing from your attempt. |
 | ![#f03c15](https://github.com/solmarita/code-your-answer/blob/main/docs/diff_shades/faa.png) Red| **Extra** | Characters you typed that are not in the solution (typos, new names, extra logic etc). |
 
+![Diff Example](https://github.com/solmarita/code-your-answer/blob/main/docs/screens.png)
+
 ## Keyboard Shortcuts
 
 Designed for a hands-on-keyboard workflow:
