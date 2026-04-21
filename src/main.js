@@ -32,8 +32,6 @@ import "./style.css";
 
 const STORAGE_KEY = 'cya_editor_content';
 
-
-
 /**
  * Detects if Anki is currently in Night Mode and apply the correct hljs theme
  */
@@ -65,7 +63,7 @@ async function getLanguageExtension(lang) {
   const fallback = await languageRegistry.text();
   return { 
     ...fallback, 
-    name: `${lang.toUpperCase()}: Language Not Supported!` 
+    name: `${lang.toUpperCase()}: Language Not Supported!: Plain Text Mode` 
   };
 }
 
@@ -86,9 +84,12 @@ function languageBadge(name) {
     dom.style.fontSize = "12px";
     dom.style.fontWeight = "bold";
     
-    // Status-based coloring
-    dom.style.background = isUnsupported ? "#5e2121" : "#21252b";
-    dom.style.color = isUnsupported ? "#ff8e8e" : "#abb2bf";
+    // Status-based coloring if a language is unsupported
+    if (isUnsupported) {
+      dom.style.background = "#DC3545";
+      dom.style.color = "#ffffff";
+      dom.style.border = "1px solid #b02a37";
+    }
     
     return { dom, top: false };
   };
@@ -138,7 +139,7 @@ async function createEditor(lang) {
       // DEFAULT COMMANDS SECOND
 
       basicSetup,           // Includes essential features like line numbers and history
-      //oneDark,              // Sets the visual dark theme
+      oneDark,              // Sets the visual dark theme
       extension,    // Applies syntax highlighting for the selected language
       indentUnit.of("    "), // Set default indent unit to 4 spaces
       showPanel.of(languageBadge(name)), // Adds the language label to the bottom
@@ -146,6 +147,7 @@ async function createEditor(lang) {
       bracketMatching(),    // Highlights matching brackets
       keymap.of([indentWithTab]), // Allows using the Tab key to indent
       autocompletion({ override: [] }), // Disables autocomplete
+      
       // Sync editor state to sessionStorage for downstream diffing
       EditorView.updateListener.of((update) => {
         if (update.docChanged) {
