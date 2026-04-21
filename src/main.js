@@ -26,6 +26,11 @@ const STORAGE_KEY = 'cya_editor_content';
  */
 
 const languageRegistry = {
+  // THIS IS THE MISSING PIECE
+  text: async () => {
+    return { extension: [], name: "Plain Text" };
+  },
+  
   python: async () => {
     // Dynamically import both packages in parallel
     const [{ python }, { default: pyGrammar }] = await Promise.all([
@@ -52,14 +57,25 @@ const languageRegistry = {
 };
 
 /**
- * Alias mapping for user convenience.
+ * SOURCE OF TRUTH FOR LANG ALIASES (Human-friendly)
  */
-const aliases = {
-  js: "javascript",
-  jsx: "javascript",
-  py: "python",
-  py3: "python",
+
+const groupedAliases = {
+  javascript: ["js", "jsx", "node", "javascript"],
+  python: ["py", "py3", "python3", "python"],
+  rust: ["rs", "rustlang", "rust"],
 };
+
+/**
+ * GENERATED LOOKUP (Machine-friendly)
+ * Flattens the map once at runtime for O(1) performance.
+ */
+const aliases = {};
+Object.entries(groupedAliases).forEach(([lang, tags]) => {
+  tags.forEach(tag => {
+    aliases[tag.toLowerCase()] = lang;
+  });
+});
 
 /**
 * Resolves a language string into a CodeMirror extension and display name.
