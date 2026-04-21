@@ -11,16 +11,36 @@ import { autocompletion } from "@codemirror/autocomplete"
 
 import * as Diff from 'diff';
 
+/**
+**HLJS
+**/
+
 import hljs from 'highlight.js/lib/core';
-import 'highlight.js/styles/atom-one-dark.css';
+//import 'highlight.js/styles/github.css';
+//import 'highlight.js/styles/default.min.css';
+//import 'highlight.js/styles/atom-one-dark.css';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 hljs.registerLanguage('plaintext', plaintext); //Register plaintext immediately as the fallback
+
+/**
+ * languages.js & custom styles.css
+ */
 
 import { aliases, languageRegistry } from './languages.js';
 
 import "./style.css";
 
 const STORAGE_KEY = 'cya_editor_content';
+
+
+
+/**
+ * Detects if Anki is currently in Night Mode and apply the correct hljs theme
+ */
+const isAnkiNightMode = () => {
+  return document.body.classList.contains('nightMode') || 
+         document.documentElement.classList.contains('nightMode');
+};
 
 /**
 * Resolves a language string into a CodeMirror extension and display name.
@@ -118,7 +138,7 @@ async function createEditor(lang) {
       // DEFAULT COMMANDS SECOND
 
       basicSetup,           // Includes essential features like line numbers and history
-      oneDark,              // Sets the visual dark theme
+      //oneDark,              // Sets the visual dark theme
       extension,    // Applies syntax highlighting for the selected language
       indentUnit.of("    "), // Set default indent unit to 4 spaces
       showPanel.of(languageBadge(name)), // Adds the language label to the bottom

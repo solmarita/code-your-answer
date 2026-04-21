@@ -32,7 +32,7 @@
   line-height: 1.8;
   white-space: pre-wrap;
   padding: 20px;
-  background-color: #222;
+  /* background-color: #222; */
   border-radius: 6px;
   color: #ffffff;
 }
@@ -59,7 +59,7 @@
 #beautified-answer pre {
     margin: 0;
     padding: 15px;
-    background: #222;
+    background: #282c34;
     border-radius: 6px;
     overflow-x: auto;
 }
@@ -71,7 +71,7 @@
     display: block;
     overflow-x: auto;
     padding: 1.5em;
-    background: #222 important; /* One Dark background hex #282c34 */
+    /*background: #222 important;*/
     color: #abb2bf;
     border-radius: 6px;
     font-family: 'Fira Code', monospace;

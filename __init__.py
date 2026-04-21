@@ -46,8 +46,8 @@ def load_template(file_name: str) -> str:
 def fix_vite_paths(html: str) -> str:
     return (
         html
-        .replace('src="/assets/', f'src="{assets_base_url}/assets/')
-        .replace('href="/assets/', f'href="{assets_base_url}/assets/')
+        .replace('src="./assets/', f'src="{assets_base_url}/assets/')
+        .replace('href="./assets/', f'href="{assets_base_url}/assets/')
     )
 
 ## Model Functions
