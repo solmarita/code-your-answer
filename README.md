@@ -57,13 +57,19 @@ Designed for a hands-on-keyboard workflow:
 | **PHP** | `php`, `php8`, `php7` |
 | **Go** | `go`, `golang` |
 | **Zig** | `zig`, `ziglang` |
-| **C++** | `cpp`, `c++`, `cc`, `hpp` |
+| **C++** | `cpp`, `c++`, `cc`, `hpp`, `h++` |
 | **C** | `c`, `h` |
 | **Java** | `java`, `jar` |
 | **C#** | `cs`, `csharp`, `c#` |
 | **HTML** | `html`, `htm` |
 | **CSS** | `css` |
+| **XML** | `xml`, `svg` |
+| **Sass** | `sass`, `scss` |
+| **Less** | `less` |
+| **Vue** | `vue` |
+| **Angular** | `angular`, `ng` |
 | **SQL** | `sql`, `mysql`, `postgres`, `psql` |
+| **WebAssembly** | `wasm`, `wat` |
 | **Shell** | `sh`, `bash`, `zsh`, `shell`, `batch`, `ps1` |
 | **YAML** | `yaml`, `yml` |
 | **JSON** | `json` |
