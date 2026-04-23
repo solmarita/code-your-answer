@@ -15,6 +15,11 @@ export const groupedAliases = {
   html: ["html", "htm"],
   css: ["css"],
   php: ["php", "php8", "php7"],
+  xml: ["xml", "svg"],
+  sass: ["sass", "scss"],
+  less: ["less"],
+  vue: ["vue"],
+  angular: ["angular", "ng"],
   
   // Systems & General Purpose
   python: ["py", "py3", "python3", "python", "pypy"],
@@ -25,6 +30,7 @@ export const groupedAliases = {
   cpp: ["cpp", "c++", "cc", "hpp", "h++"],
   c: ["c", "h"],
   csharp: ["cs", "csharp", "c#"],
+  wasm: ["wasm", "wat"],
   
   // DevOps & Data
   shell: ["sh", "bash", "zsh", "shell", "batch", "ps1"],
@@ -196,6 +202,61 @@ export const languageRegistry = {
     if (!hljs.getLanguage('sql')) hljs.registerLanguage('sql', grammar);
     return { extension: sql(), name: "SQL" };
   },
+
+  xml: async () => {
+    const [{ xml }, { default: grammar }] = await Promise.all([
+      import("@codemirror/lang-xml"),
+      import("highlight.js/lib/languages/xml")
+    ]);
+    if (!hljs.getLanguage('xml')) hljs.registerLanguage('xml', grammar);
+    return { extension: xml(), name: "XML" };
+  },
+
+  wasm: async () => {
+    const [{ wast }, { default: grammar }] = await Promise.all([
+      import("@codemirror/lang-wast"),
+      import("highlight.js/lib/languages/wasm")
+    ]);
+    if (!hljs.getLanguage('wasm')) hljs.registerLanguage('wasm', grammar);
+    return { extension: wast(), name: "WebAssembly" };
+  },
+
+  sass: async () => {
+    const [{ sass }, { default: grammar }] = await Promise.all([
+      import("@codemirror/lang-sass"),
+      import("highlight.js/lib/languages/scss")
+    ]);
+    if (!hljs.getLanguage('scss')) hljs.registerLanguage('scss', grammar);
+    return { extension: sass(), name: "Sass" };
+  },
+
+  less: async () => {
+    const [{ less }, { default: grammar }] = await Promise.all([
+      import("@codemirror/lang-less"),
+      import("highlight.js/lib/languages/less")
+    ]);
+    if (!hljs.getLanguage('less')) hljs.registerLanguage('less', grammar);
+    return { extension: less(), name: "Less" };
+  },
+
+  vue: async () => {
+    const [{ vue }, { default: grammar }] = await Promise.all([
+      import("@codemirror/lang-vue"),
+      import("highlight.js/lib/languages/xml")  // Vue uses XML/HTML grammar
+    ]);
+    if (!hljs.getLanguage('xml')) hljs.registerLanguage('xml', grammar);
+    return { extension: vue(), name: "Vue" };
+  },
+
+  angular: async () => {
+    const [{ angular }, { default: grammar }] = await Promise.all([
+      import("@codemirror/lang-angular"),
+      import("highlight.js/lib/languages/xml")  // Angular uses XML/HTML grammar
+    ]);
+    if (!hljs.getLanguage('xml')) hljs.registerLanguage('xml', grammar);
+    return { extension: angular(), name: "Angular" };
+  },
+  
   
   // Community Supported Languages
 
