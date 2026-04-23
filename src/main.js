@@ -17,9 +17,6 @@ import * as Diff from 'diff';
 **/
 
 import hljs from 'highlight.js/lib/core';
-//import 'highlight.js/styles/github.css';
-//import 'highlight.js/styles/default.min.css';
-//import 'highlight.js/styles/atom-one-dark.css';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 hljs.registerLanguage('plaintext', plaintext); //Register plaintext immediately as the fallback
 
@@ -27,7 +24,7 @@ hljs.registerLanguage('plaintext', plaintext); //Register plaintext immediately 
  * languages.js & custom styles.css
  */
 
-import { aliases, languageRegistry } from './languages.js';
+import {groupedAliases, aliases, languageRegistry } from './languages.js';
 
 import "./style.css";
 
@@ -282,3 +279,16 @@ function renderCyaDiff(correctCodeHTML, diffTargetId, answerTargetId, attemptTar
 
 // Export to window for access from the Anki Template
 window.renderCyaDiff = renderCyaDiff;
+
+/**
+ * Make sure all languages listed in groupedAliases have an entry in languageRegistry
+ * For use during development
+ */
+
+const registryKeys = new Set(Object.keys(languageRegistry));
+
+Object.entries(groupedAliases).forEach(([lang, tags]) => {
+  if (!registryKeys.has(lang)) {
+    console.warn(`Missing languageRegistry handler for: ${lang}`);
+  }
+});
