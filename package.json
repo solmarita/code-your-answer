@@ -32,6 +32,7 @@
     "@codemirror/state": "^6.6.0",
     "@codemirror/theme-one-dark": "^6.1.3",
     "@codemirror/view": "^6.41.0",
+    "@fsegurai/codemirror-theme-bundle": "^6.4.2",
     "codemirror": "^6.0.2",
     "diff": "^9.0.0",
     "highlight.js": "^11.11.1"

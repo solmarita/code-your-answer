@@ -2,6 +2,7 @@ import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 
 import { oneDark } from "@codemirror/theme-one-dark";
+import { githubLight } from "@fsegurai/codemirror-theme-bundle";
 
 import { keymap, showPanel } from "@codemirror/view";
 import { closeBrackets } from "@codemirror/autocomplete";
@@ -32,13 +33,52 @@ import "./style.css";
 
 const STORAGE_KEY = 'cya_editor_content';
 
+// THEMEING
+
 /**
- * Detects if Anki is currently in Night Mode and apply the correct hljs theme
+ * Anki light/dark mode
  */
+
 const isAnkiNightMode = () => {
   return document.body.classList.contains('nightMode') || 
          document.documentElement.classList.contains('nightMode');
 };
+
+const getActiveTheme = () => {
+  return isAnkiNightMode() ? "dark" : "light";
+};
+
+const ankiThemeMode = getActiveTheme();
+
+/**
+ * Code Mirror Theme
+ */
+
+const CM_THEMES = {
+  light: githubLight,
+  dark: oneDark,
+};
+
+/**
+ * HLJS Theme
+ */
+
+const HLJS_THEMES = {
+  light: "github",
+  dark: "atom-one-dark",
+};
+
+const applyHljsTheme = async (theme) => {
+  if (theme === "dark") {
+    await import('highlight.js/styles/atom-one-dark.css');
+  } else {
+    await import('highlight.js/styles/github.css');
+  }
+};
+
+applyHljsTheme(ankiThemeMode);
+
+// LANGUAGE HANDLING
 
 /**
 * Resolves a language string into a CodeMirror extension and display name.
@@ -65,6 +105,8 @@ async function getLanguageExtension(lang) {
     name: `${lang.toUpperCase()}: Language Not Supported!: Plain Text Mode` 
   };
 }
+
+// SETTING UP THE EDITOR
 
 /**
  * Creates a panel badge to display the active language/mode.
@@ -138,7 +180,7 @@ async function createEditor(lang) {
       // DEFAULT COMMANDS SECOND
 
       basicSetup,           // Includes essential features like line numbers and history
-      oneDark,              // Sets the visual dark theme
+      CM_THEMES[ankiThemeMode],              // Sets the editor's theme
       extension,    // Applies syntax highlighting for the selected language
       indentUnit.of("    "), // Set default indent unit to 4 spaces
       showPanel.of(languageBadge(name)), // Adds the language label to the bottom
@@ -169,6 +211,7 @@ async function createEditor(lang) {
 // Attach to the window object so the template can find it
 window.initCyaEditor = createEditor;
 
+// ANKI BACKSIDE LOGIC
 
 /**
  * Strips Anki/Obsidian (if using Obsidian_to_Anki) HTML and normalizes line endings
