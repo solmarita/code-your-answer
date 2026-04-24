@@ -1,14 +1,11 @@
 import hljs from 'highlight.js/lib/core';
-import zigGrammar from "highlightjs-zig";
-
-hljs.registerLanguage("zig", zigGrammar);
 
 /**
  * LOADER REGISTRY
  * Groups all loaders for each language together
  */
 const LOADER_REGISTRY = {
-  // Standard API Languages (Official & Community)
+  // Standard CM 6 API Languages (Official & Community)
   python: {
     cm: () => import('@codemirror/lang-python'),
     hljs: () => import('highlight.js/lib/languages/python'),
@@ -310,10 +307,17 @@ export const languageRegistry = {
   
   // Community packages with non-standard API
   zig: async () => {
-    const [{ LanguageSupport }, { lr }] = await Promise.all([
+    const [{ LanguageSupport }, { lr }, zigGrammar] = await Promise.all([
       import("@codemirror/language"),
-      import("@cookshack/codemirror-lang-zig")
+      import("@cookshack/codemirror-lang-zig"),
+      import("highlightjs-zig")
     ]);
+    
+    // Register zig grammar (only runs when zig is actually used)
+    if (!hljs.getLanguage("zig")) {
+      hljs.registerLanguage("zig", zigGrammar.default);
+    }
+    
     return { extension: new LanguageSupport(lr), name: "Zig" };
   },
 };
