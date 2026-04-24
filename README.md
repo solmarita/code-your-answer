@@ -4,10 +4,6 @@ An Anki addon for coding practice. Type your answers in an IDE-style input field
 
 ![Code Your Answer Review Interface](https://github.com/solmarita/code-your-answer/blob/main/docs/screens.png)
 
-## Development
-
-**DISCLAIMER:** This addon is under active development and may change frequently!
-
 ## ⚠️ Compatibility
 
 This add-on is **only supported on Anki Desktop**.
@@ -116,3 +112,37 @@ git clone https://github.com/solmarita/code-your-answer.git
         
 2. **Copy the project folder**: Move the `code-your-answer` folder into the `addons21/` directory.
 3. **Restart Anki**: Close and reopen Anki to activate the addon.
+
+## Development
+
+**DISCLAIMER:** This addon is under active development and may change frequently!
+
+### Dev Mode
+
+This add-on includes a dev mode to prevent template flushing when not in development mode.
+
+**Enable dev mode:**
+```bash
+cd ~/.local/share/Anki2/addons21/code-your-answer/
+touch .dev
+```
+
+**With dev mode enabled:**
+- Templates auto-update on every Anki restart
+- Useful when actively modifying card templates
+- See debug output by launching Anki from terminal: `anki`
+
+**Disable dev mode:**
+```bash
+rm .dev
+```
+
+**Important:** Always remove `.dev` before packaging releases. Without this file, the add-on never modifies existing note types, protecting user customizations.
+
+### Build Process
+
+```bash
+npm run build
+```
+
+Restart Anki to see changes.
