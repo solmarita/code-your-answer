@@ -121,28 +121,65 @@ git clone https://github.com/solmarita/code-your-answer.git
 
 This add-on includes a dev mode to prevent template flushing when not in development mode.
 
-**Enable dev mode:**
+## Development
+
+### Setup
+
+**Option 1: Clone directly to Anki's addon folder**
 ```bash
-cd ~/.local/share/Anki2/addons21/code-your-answer/
-touch .dev
+cd <path_to_anki_addons_folder>
+git clone https://github.com/solmarita/code-your-answer.git
+cd code-your-answer
 ```
 
-**With dev mode enabled:**
-- Templates auto-update on every Anki restart
-- Useful when actively modifying card templates
-- See debug output by launching Anki from terminal: `anki`
-
-**Disable dev mode:**
+**Option 2: Clone elsewhere and symlink**
 ```bash
-rm .dev
+# Clone to your preferred location
+git clone https://github.com/solmarita/code-your-answer.git
+cd code-your-answer
+
+# Create symlink in Anki's addon folder
+# macOS/Linux:
+ln -s "$(pwd)" <path_to_anki_addons_folder>/code-your-answer
+
+# Windows (run as Administrator):
+mklink /D "<path_to_anki_addons_folder>\code-your-answer" "%CD%"
 ```
 
-**Important:** Always remove `.dev` before packaging releases. Without this file, the add-on never modifies existing note types, protecting user customizations.
-
-### Build Process
-
+**Install dependencies:**
 ```bash
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+npm install
+
+# Enable dev mode
+touch .dev  # Windows: type nul > .dev
+
+# Build
 npm run build
 ```
 
-Restart Anki to see changes.
+**Finding your Anki addons folder:**    
+    - Open Anki, go to `Tools > Add-ons`.  
+    - Click **View Files** to open the `addons21` directory.
+
+### Development Workflow
+
+```bash
+# Make changes to __init__.py and src/ files
+npm run build
+# Restart Anki to see changes
+```
+
+**Tip:** Install [AnkiRestart](https://ankiweb.net/shared/info/1766024579) for quick reloads during development.
+
+### Dev Mode
+
+The `.dev` file enables template auto-updates on Anki restart. 
+
+**Disable dev mode before release:**
+```bash
+rm .dev  # macOS/Linux
+# Windows: del .dev
+```
