@@ -1,13 +1,141 @@
 import hljs from 'highlight.js/lib/core';
 import zigGrammar from "highlightjs-zig";
 
-// register zig grammar
 hljs.registerLanguage("zig", zigGrammar);
+
+/**
+ * LOADER REGISTRY
+ * Groups all loaders for each language together
+ */
+const LOADER_REGISTRY = {
+  // Standard API Languages (Official & Community)
+  python: {
+    cm: () => import('@codemirror/lang-python'),
+    hljs: () => import('highlight.js/lib/languages/python'),
+  },
+  javascript: {
+    cm: () => import('@codemirror/lang-javascript'),
+    hljs: () => import('highlight.js/lib/languages/javascript'),
+  },
+  typescript: {
+    cm: () => import('@codemirror/lang-javascript'),
+    hljs: () => import('highlight.js/lib/languages/typescript'),
+  },
+  java: {
+    cm: () => import('@codemirror/lang-java'),
+    hljs: () => import('highlight.js/lib/languages/java'),
+  },
+  cpp: {
+    cm: () => import('@codemirror/lang-cpp'),
+    hljs: () => import('highlight.js/lib/languages/cpp'),
+  },
+  c: {
+    cm: () => import('@codemirror/lang-cpp'),
+    hljs: () => import('highlight.js/lib/languages/c'),
+  },
+  php: {
+    cm: () => import('@codemirror/lang-php'),
+    hljs: () => import('highlight.js/lib/languages/php'),
+  },
+  go: {
+    cm: () => import('@codemirror/lang-go'),
+    hljs: () => import('highlight.js/lib/languages/go'),
+  },
+  rust: {
+    cm: () => import('@codemirror/lang-rust'),
+    hljs: () => import('highlight.js/lib/languages/rust'),
+  },
+  html: {
+    cm: () => import('@codemirror/lang-html'),
+    hljs: () => import('highlight.js/lib/languages/xml'),
+  },
+  css: {
+    cm: () => import('@codemirror/lang-css'),
+    hljs: () => import('highlight.js/lib/languages/css'),
+  },
+  json: {
+    cm: () => import('@codemirror/lang-json'),
+    hljs: () => import('highlight.js/lib/languages/json'),
+  },
+  yaml: {
+    cm: () => import('@codemirror/lang-yaml'),
+    hljs: () => import('highlight.js/lib/languages/yaml'),
+  },
+  markdown: {
+    cm: () => import('@codemirror/lang-markdown'),
+    hljs: () => import('highlight.js/lib/languages/markdown'),
+  },
+  sql: {
+    cm: () => import('@codemirror/lang-sql'),
+    hljs: () => import('highlight.js/lib/languages/sql'),
+  },
+  xml: {
+    cm: () => import('@codemirror/lang-xml'),
+    hljs: () => import('highlight.js/lib/languages/xml'),
+  },
+  wasm: {
+    cm: () => import('@codemirror/lang-wast'),
+    hljs: () => import('highlight.js/lib/languages/wasm'),
+  },
+  sass: {
+    cm: () => import('@codemirror/lang-sass'),
+    hljs: () => import('highlight.js/lib/languages/scss'),
+  },
+  less: {
+    cm: () => import('@codemirror/lang-less'),
+    hljs: () => import('highlight.js/lib/languages/less'),
+  },
+  vue: {
+    cm: () => import('@codemirror/lang-vue'),
+    hljs: () => import('highlight.js/lib/languages/xml'),
+  },
+  angular: {
+    cm: () => import('@codemirror/lang-angular'),
+    hljs: () => import('highlight.js/lib/languages/xml'),
+  },
+  csharp: {
+    cm: () => import("@replit/codemirror-lang-csharp"),
+    hljs: () => import('highlight.js/lib/languages/csharp'),
+  },
+  
+  // Legacy Languages
+  ruby: {
+    cm: () => import('@codemirror/legacy-modes/mode/ruby'),
+    hljs: () => import('highlight.js/lib/languages/ruby'),
+  },
+  swift: {
+    cm: () => import('@codemirror/legacy-modes/mode/swift'),
+    hljs: () => import('highlight.js/lib/languages/swift'),
+  },
+  r: {
+    cm: () => import('@codemirror/legacy-modes/mode/r'),
+    hljs: () => import('highlight.js/lib/languages/r'),
+  },
+  matlab: {
+    cm: () => import('@codemirror/legacy-modes/mode/octave'),
+    hljs: () => import('highlight.js/lib/languages/matlab'),
+  },
+  scala: {
+    cm: () => import('@codemirror/legacy-modes/mode/clike'),
+    hljs: () => import('highlight.js/lib/languages/scala'),
+  },
+  dart: {
+    cm: () => import('@codemirror/legacy-modes/mode/clike'),
+    hljs: () => import('highlight.js/lib/languages/dart'),
+  },
+  kotlin: {
+    cm: () => import('@codemirror/legacy-modes/mode/clike'),
+    hljs: () => import('highlight.js/lib/languages/kotlin'),
+  },
+  shell: {
+    cm: () => import('@codemirror/legacy-modes/mode/shell'),
+    hljs: () => import('highlight.js/lib/languages/bash'),
+  },
+};
 
 /**
  * LANG ALIASES (Human-friendly)
  */
-
 export const groupedAliases = {
   // Web Core
   javascript: ["js", "jsx", "node", "javascript", "ecmascript"],
@@ -51,7 +179,6 @@ export const groupedAliases = {
 
 /**
  * GENERATED LANG ALIASES LOOKUP (Machine-friendly)
- * Flattens the map once at runtime for O(1) performance.
  */
 export const aliases = {};
 Object.entries(groupedAliases).forEach(([lang, tags]) => {
@@ -61,374 +188,132 @@ Object.entries(groupedAliases).forEach(([lang, tags]) => {
 });
 
 /**
- * Registry mapping keys to their specific language loading logic.
- * Uses destructuring for readability and modularity.
+ * PRIVATE HELPER FUNCTIONS
  */
 
+function registerHighlightJsGrammar(langName, grammar) {
+  if (!hljs.getLanguage(langName)) {
+    hljs.registerLanguage(langName, grammar);
+  }
+}
+
+/**
+ * Load a CodeMirror 6 language using the standard API
+ * 
+ * Works for both official @codemirror/* packages and community packages that follow
+ * the CodeMirror 6 standard: exporting a language function with the same name as the
+ * package that returns a LanguageSupport instance.
+ * 
+ * Example: @codemirror/lang-python exports python(), @replit/codemirror-lang-csharp
+ * exports csharp() - both follow the same API pattern.
+ * 
+ * @param {string} langKey - Key in LOADER_REGISTRY
+ * @param {string} cmExportName - Export name from CM package (e.g., 'python', 'csharp')
+ * @param {string} hljsLangName - Language name for hljs registration
+ * @param {string} displayName - Human-readable name
+ * @param {Object} cmOptions - Optional CM language options
+ */
+async function loadCmLang(langKey, cmExportName, hljsLangName, displayName, cmOptions = {}) {
+  const loaders = LOADER_REGISTRY[langKey];
+  
+  if (!loaders) {
+    throw new Error(`No loaders found for: ${langKey}`);
+  }
+  
+  const [cmModule, hljsModule] = await Promise.all([
+    loaders.cm(),
+    loaders.hljs()
+  ]);
+  
+  const langFn = cmModule[cmExportName];
+  const grammar = hljsModule.default;
+  
+  registerHighlightJsGrammar(hljsLangName, grammar);
+  
+  return {
+    extension: langFn(cmOptions),
+    name: displayName
+  };
+}
+
+/**
+ * Load a legacy CodeMirror mode via StreamLanguage
+ * 
+ * @param {string} langKey - Key in LOADER_REGISTRY
+ * @param {string|null} modeName - Specific mode name if multi-mode file, null for first export
+ * @param {string} hljsLangName - Language name for hljs registration
+ * @param {string} displayName - Human-readable name
+ */
+async function loadCmLegacyLang(langKey, modeName, hljsLangName, displayName) {
+  const loaders = LOADER_REGISTRY[langKey];
+  
+  if (!loaders) {
+    throw new Error(`No loaders found for: ${langKey}`);
+  }
+  
+  const [{ StreamLanguage }, cmModule, hljsModule] = await Promise.all([
+    import("@codemirror/language"),
+    loaders.cm(),
+    loaders.hljs()
+  ]);
+  
+  const grammar = hljsModule.default;
+  registerHighlightJsGrammar(hljsLangName, grammar);
+  
+  const mode = modeName ? cmModule[modeName] : Object.values(cmModule)[0];
+  
+  return {
+    extension: StreamLanguage.define(mode),
+    name: displayName
+  };
+}
+
+/**
+ * PUBLIC API: Language Registry
+ */
 export const languageRegistry = {
   text: async () => ({ extension: [], name: "Plain Text" }),
 
-  c: async () => {
-  const [{ cpp }, { default: grammar }] = await Promise.all([
-    import("@codemirror/lang-cpp"),
-    import("highlight.js/lib/languages/c")
-  ]);
-  if (!hljs.getLanguage('c')) hljs.registerLanguage('c', grammar);
-  return { extension: cpp(), name: "C" };
-  },
-
-  cpp: async () => {
-    const [{ cpp }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-cpp"),
-      import("highlight.js/lib/languages/cpp")
-    ]);
-    if (!hljs.getLanguage('cpp')) hljs.registerLanguage('cpp', grammar);
-    return { extension: cpp(), name: "C++" };
-  },
-
-  java: async () => {
-    const [{ java }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-java"),
-      import("highlight.js/lib/languages/java")
-    ]);
-    if (!hljs.getLanguage('java')) hljs.registerLanguage('java', grammar);
-    return { extension: java(), name: "Java" };
-  },
-
-  python: async () => {
-    const [{ python }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-python"),
-      import("highlight.js/lib/languages/python")
-    ]);
-    if (!hljs.getLanguage('python')) hljs.registerLanguage('python', grammar);
-    return { extension: python(), name: "Python" };
-  },
-
-  javascript: async () => {
-    const [{ javascript }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-javascript"),
-      import("highlight.js/lib/languages/javascript")
-    ]);
-    if (!hljs.getLanguage('javascript')) hljs.registerLanguage('javascript', grammar);
-    return { extension: javascript(), name: "JavaScript" };
-  },
-
-  typescript: async () => {
-    const [{ javascript }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-javascript"),
-      import("highlight.js/lib/languages/typescript")
-    ]);
-    if (!hljs.getLanguage('typescript')) hljs.registerLanguage('typescript', grammar);
-    return { extension: javascript({ typescript: true }), name: "TypeScript" };
-  },
-
-  php: async () => {
-    const [{ php }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-php"),
-      import("highlight.js/lib/languages/php")
-    ]);
-    if (!hljs.getLanguage('php')) hljs.registerLanguage('php', grammar);
-    return { extension: php(), name: "PHP" };
-  },
-
-  go: async () => {
-    const [{ go }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-go"),
-      import("highlight.js/lib/languages/go")
-    ]);
-    if (!hljs.getLanguage('go')) hljs.registerLanguage('go', grammar);
-    return { extension: go(), name: "Go" };
-  },
-
-  rust: async () => {
-    const [{ rust }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-rust"),
-      import("highlight.js/lib/languages/rust")
-    ]);
-    if (!hljs.getLanguage('rust')) hljs.registerLanguage('rust', grammar);
-    return { extension: rust(), name: "Rust" };
-  },
-
-  html: async () => {
-    const [{ html }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-html"),
-      import("highlight.js/lib/languages/xml")
-    ]);
-    if (!hljs.getLanguage('xml')) hljs.registerLanguage('xml', grammar);
-    return { extension: html(), name: "HTML" };
-  },
-
-  css: async () => {
-    const [{ css }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-css"),
-      import("highlight.js/lib/languages/css")
-    ]);
-    if (!hljs.getLanguage('css')) hljs.registerLanguage('css', grammar);
-    return { extension: css(), name: "CSS" };
-  },
-
-  json: async () => {
-    const [{ json }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-json"),
-      import("highlight.js/lib/languages/json")
-    ]);
-    if (!hljs.getLanguage('json')) hljs.registerLanguage('json', grammar);
-    return { extension: json(), name: "JSON" };
-  },
-
-  yaml: async () => {
-    const [{ yaml }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-yaml"),
-      import("highlight.js/lib/languages/yaml")
-    ]);
-    if (!hljs.getLanguage('yaml')) hljs.registerLanguage('yaml', grammar);
-    return { extension: yaml(), name: "YAML" };
-  },
-
-  markdown: async () => {
-    const [{ markdown }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-markdown"),
-      import("highlight.js/lib/languages/markdown")
-    ]);
-    if (!hljs.getLanguage('markdown')) hljs.registerLanguage('markdown', grammar);
-    return { extension: markdown(), name: "Markdown" };
-  },
-
-  sql: async () => {
-    const [{ sql }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-sql"),
-      import("highlight.js/lib/languages/sql")
-    ]);
-    if (!hljs.getLanguage('sql')) hljs.registerLanguage('sql', grammar);
-    return { extension: sql(), name: "SQL" };
-  },
-
-  xml: async () => {
-    const [{ xml }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-xml"),
-      import("highlight.js/lib/languages/xml")
-    ]);
-    if (!hljs.getLanguage('xml')) hljs.registerLanguage('xml', grammar);
-    return { extension: xml(), name: "XML" };
-  },
-
-  wasm: async () => {
-    const [{ wast }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-wast"),
-      import("highlight.js/lib/languages/wasm")
-    ]);
-    if (!hljs.getLanguage('wasm')) hljs.registerLanguage('wasm', grammar);
-    return { extension: wast(), name: "WebAssembly" };
-  },
-
-  sass: async () => {
-    const [{ sass }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-sass"),
-      import("highlight.js/lib/languages/scss")
-    ]);
-    if (!hljs.getLanguage('scss')) hljs.registerLanguage('scss', grammar);
-    return { extension: sass(), name: "Sass" };
-  },
-
-  less: async () => {
-    const [{ less }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-less"),
-      import("highlight.js/lib/languages/less")
-    ]);
-    if (!hljs.getLanguage('less')) hljs.registerLanguage('less', grammar);
-    return { extension: less(), name: "Less" };
-  },
-
-  vue: async () => {
-    const [{ vue }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-vue"),
-      import("highlight.js/lib/languages/xml")  // Vue uses XML/HTML grammar
-    ]);
-    if (!hljs.getLanguage('xml')) hljs.registerLanguage('xml', grammar);
-    return { extension: vue(), name: "Vue" };
-  },
-
-  angular: async () => {
-    const [{ angular }, { default: grammar }] = await Promise.all([
-      import("@codemirror/lang-angular"),
-      import("highlight.js/lib/languages/xml")  // Angular uses XML/HTML grammar
-    ]);
-    if (!hljs.getLanguage('xml')) hljs.registerLanguage('xml', grammar);
-    return { extension: angular(), name: "Angular" };
-  },
+  // Languages using CodeMirror 6 standard API (official @codemirror/* and compatible community packages e.g., csharp)
+  c: () => loadCmLang('c', 'cpp', 'c', 'C'),
+  cpp: () => loadCmLang('cpp', 'cpp', 'cpp', 'C++'),
+  java: () => loadCmLang('java', 'java', 'java', 'Java'),
+  python: () => loadCmLang('python', 'python', 'python', 'Python'),
+  javascript: () => loadCmLang('javascript', 'javascript', 'javascript', 'JavaScript'),
+  typescript: () => loadCmLang('typescript', 'javascript', 'typescript', 'TypeScript', { typescript: true }),
+  php: () => loadCmLang('php', 'php', 'php', 'PHP'),
+  go: () => loadCmLang('go', 'go', 'go', 'Go'),
+  rust: () => loadCmLang('rust', 'rust', 'rust', 'Rust'),
+  html: () => loadCmLang('html', 'html', 'xml', 'HTML'),
+  css: () => loadCmLang('css', 'css', 'css', 'CSS'),
+  json: () => loadCmLang('json', 'json', 'json', 'JSON'),
+  yaml: () => loadCmLang('yaml', 'yaml', 'yaml', 'YAML'),
+  markdown: () => loadCmLang('markdown', 'markdown', 'markdown', 'Markdown'),
+  sql: () => loadCmLang('sql', 'sql', 'sql', 'SQL'),
+  xml: () => loadCmLang('xml', 'xml', 'xml', 'XML'),
+  wasm: () => loadCmLang('wasm', 'wast', 'wasm', 'WebAssembly'),
+  sass: () => loadCmLang('sass', 'sass', 'scss', 'Sass'),
+  less: () => loadCmLang('less', 'less', 'less', 'Less'),
+  vue: () => loadCmLang('vue', 'vue', 'xml', 'Vue'),
+  angular: () => loadCmLang('angular', 'angular', 'xml', 'Angular'),
+  csharp: () => loadCmLang('csharp', 'csharp', 'csharp', 'C#'),
   
+  // Legacy CodeMirror modes (pre-CM6)
+  ruby: () => loadCmLegacyLang('ruby', null, 'ruby', 'Ruby'),
+  swift: () => loadCmLegacyLang('swift', null, 'swift', 'Swift'),
+  r: () => loadCmLegacyLang('r', null, 'r', 'R'),
+  matlab: () => loadCmLegacyLang('matlab', null, 'matlab', 'MATLAB'),
+  scala: () => loadCmLegacyLang('scala', null, 'scala', 'Scala'),
+  dart: () => loadCmLegacyLang('dart', 'dart', 'dart', 'Dart'),
+  kotlin: () => loadCmLegacyLang('kotlin', 'kotlin', 'kotlin', 'Kotlin'),
+  shell: () => loadCmLegacyLang('shell', 'shell', 'bash', 'Shell'),
   
-  // Community Supported Languages
-
-    csharp: async () => {
-    const [{ csharp }, { default: grammar }] = await Promise.all([
-      import("@replit/codemirror-lang-csharp"),
-      import("highlight.js/lib/languages/csharp")
-    ]);
-
-    if (!hljs.getLanguage("csharp")) {
-      hljs.registerLanguage("csharp", grammar);
-    }
-
-    return {
-      extension: csharp(),
-      name: "C#"
-    };
-  },
-
+  // Community packages with non-standard API
   zig: async () => {
     const [{ LanguageSupport }, { lr }] = await Promise.all([
       import("@codemirror/language"),
       import("@cookshack/codemirror-lang-zig")
     ]);
-
-    return {
-      extension: new LanguageSupport(lr),
-      name: "Zig"
-    };
-  },
-
-  // Legacy Language Support
-
-  ruby: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/ruby"),
-        import("highlight.js/lib/languages/ruby")
-      ]);
-
-    if (!hljs.getLanguage("ruby")) hljs.registerLanguage("ruby", grammar);
-
-    const mode = Object.values(modeModule)[0];
-
-    return {
-      extension: StreamLanguage.define(mode),
-      name: "Ruby"
-    };
-  },
-
-  swift: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/swift"),
-        import("highlight.js/lib/languages/swift")
-      ]);
-
-    if (!hljs.getLanguage("swift")) hljs.registerLanguage("swift", grammar);
-
-    const mode = Object.values(modeModule)[0];
-
-    return {
-      extension: StreamLanguage.define(mode),
-      name: "Swift"
-    };
-  },
-
-  r: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/r"),
-        import("highlight.js/lib/languages/r")
-      ]);
-
-    if (!hljs.getLanguage("r")) hljs.registerLanguage("r", grammar);
-
-    const mode = Object.values(modeModule)[0];
-
-    return {
-      extension: StreamLanguage.define(mode),
-      name: "R"
-    };
-  },
-
-  matlab: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/octave"),
-        import("highlight.js/lib/languages/matlab")
-      ]);
-
-    if (!hljs.getLanguage("matlab")) hljs.registerLanguage("matlab", grammar);
-
-    const mode = Object.values(modeModule)[0];
-
-    return {
-      extension: StreamLanguage.define(mode),
-      name: "MATLAB"
-    };
-  },
-
-  scala: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/clike"),
-        import("highlight.js/lib/languages/scala")
-      ]);
-
-    if (!hljs.getLanguage("scala")) hljs.registerLanguage("scala", grammar);
-
-    const mode = Object.values(modeModule)[0];
-
-    return {
-      extension: StreamLanguage.define(mode),
-      name: "Scala"
-    };
-  },
-
-  dart: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/clike"),
-        import("highlight.js/lib/languages/dart")
-      ]);
-
-    if (!hljs.getLanguage("dart")) hljs.registerLanguage("dart", grammar);
-
-    return {
-      extension: StreamLanguage.define(modeModule.dart),
-      name: "Dart"
-    };
-  },
-
-  kotlin: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/clike"),
-        import("highlight.js/lib/languages/kotlin")
-      ]);
-
-    if (!hljs.getLanguage("kotlin")) {
-      hljs.registerLanguage("kotlin", grammar);
-    }
-
-    return {
-      extension: StreamLanguage.define(modeModule.kotlin),
-      name: "Kotlin"
-    };
-  },
-
-  shell: async () => {
-    const [{ StreamLanguage }, modeModule, { default: grammar }] =
-      await Promise.all([
-        import("@codemirror/language"),
-        import("@codemirror/legacy-modes/mode/shell"),
-        import("highlight.js/lib/languages/bash")
-      ]);
-
-    if (!hljs.getLanguage("bash")) {
-      hljs.registerLanguage("bash", grammar);
-    }
-
-    return {
-      extension: StreamLanguage.define(modeModule.shell),
-      name: "Shell"
-    };
+    return { extension: new LanguageSupport(lr), name: "Zig" };
   },
 };
