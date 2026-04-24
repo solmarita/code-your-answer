@@ -1,3 +1,6 @@
+# Dev mode flag (local only)
+.dev
+
 # ----------------------
 # Python
 # ----------------------

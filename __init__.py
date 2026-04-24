@@ -7,6 +7,10 @@ mw.addonManager.setWebExports(__name__, r"web/.*")
 addon_id = mw.addonManager.addonFromModule(__name__)
 assets_base_url = f"/_addons/{addon_id}/web"
 
+# Dev mode detection
+ADDON_DIR = Path(__file__).parent
+DEV_MODE = (ADDON_DIR / ".dev").exists()
+
 # Code Your Answer Model Parameters
 
 class CYAModelConfig(TypedDict):
@@ -106,8 +110,7 @@ def update_model_templates(model) -> None:
     """
     Updates the front and back templates of an existing Anki model.
 
-    This overwrites the template HTML without modifying fields or notes.
-    Safe to run on every startup.
+    ⚠️ DEV MODE ONLY: This overwrites user templates and should NEVER run in production.
 
     Args:
         model: The Anki model (note type) to update.
@@ -131,14 +134,27 @@ def update_model_templates(model) -> None:
 def init_cya() -> None:
     """
     Ensure model exists and update templates on startup.
+    
+    In DEV MODE: Always updates templates (for active development).
+    In PRODUCTION: Only creates model if missing, never updates existing templates.
     """
     model = mw.col.models.by_name(CYA_MODEL["name"])
 
     if not model:
+        # Model doesn't exist - create it
         create_model(CYA_MODEL["name"], CYA_MODEL["fields"])
+        if DEV_MODE:
+            print(f"✓ Created '{CYA_MODEL['name']}' note type")
         return
 
-    update_model_templates(model)
+    # Model exists - only update in dev mode
+    if DEV_MODE:
+        update_model_templates(model)
+        print(f"🔧 DEV MODE: Updated '{CYA_MODEL['name']}' templates")
+    else:
+        # Production - leave existing templates alone
+        if DEV_MODE is not None:  # Only log if we can determine mode
+            print(f"✓ '{CYA_MODEL['name']}' note type exists (not updating)")
 
 # Addon init
 gui_hooks.profile_did_open.append(init_cya)
