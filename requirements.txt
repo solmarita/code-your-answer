@@ -1,0 +1,8 @@
+# Anki development dependencies
+# Install with: pip install -r requirements.txt
+
+# Anki with Qt6 support (includes anki, PyQt6, PyQt6-WebEngine)
+aqt[qt6]
+
+# Type checking
+mypy
