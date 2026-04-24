@@ -82,6 +82,14 @@ Designed for a hands-on-keyboard workflow:
 | **R** | `r`, `rscript` |
 | **MATLAB** | `matlab`, `m` |
 
+## Request a Language
+
+Don't see your language? Check if CodeMirror supports it:
+- **Modern languages:** https://code.haverbeke.berlin/codemirror
+- **Legacy modes:** https://code.haverbeke.berlin/codemirror/legacy-modes
+
+If you find it there, [open an issue](https://github.com/solmarita/code-your-answer/issues/new) with the language name and I'll add it. If it's not there, I'll do my best to find a third-party package.
+
 ## Installation
 
 Since this addon is not yet published on AnkiWeb, it must be installed manually.
