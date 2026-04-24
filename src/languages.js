@@ -313,10 +313,7 @@ export const languageRegistry = {
       import("highlightjs-zig")
     ]);
     
-    // Register zig grammar (only runs when zig is actually used)
-    if (!hljs.getLanguage("zig")) {
-      hljs.registerLanguage("zig", zigGrammar.default);
-    }
+    registerHighlightJsGrammar("zig", zigGrammar.default);
     
     return { extension: new LanguageSupport(lr), name: "Zig" };
   },
