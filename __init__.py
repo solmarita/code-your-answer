@@ -21,9 +21,9 @@ CYA_MODEL: CYAModelConfig = {
     "name": "Code Your Answer",
     "fields": [
         "Front",
+        "Language",
         "Back",
         "Back Extra",
-        "Language"
     ],
 }
 

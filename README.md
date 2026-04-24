@@ -12,17 +12,24 @@ It relies on features such as custom JavaScript bundles, local asset loading, an
 
 ## Features
 
-- **Custom Note Type**:
-    - **Front**: The coding prompt or question.
-    - **Language**: Sets the highlighting and editor rules (e.g., `python`, `javascript`).
-    - **Back**: The raw code solution.
-    - **Back Extra**: Context, explanations, or documentation.   
+- **Custom Note Type**: Details below.
 - **IDE-Style Input**: Powered by CodeMirror.
 - **Three-Part Review**:
     - **Diff**: A character-level comparison between your attempt and the predefined solution.
     - **Your Attempt**: A syntax-highlighted view of exactly what you typed for your convenience.
     - **Expected Answer**: A syntax-highlighted view of the predefined solution for your convenience.  
-  
+
+## Note Type Fields
+
+The add-on creates a new note type (Code Your Answer) with the following fields:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| **Front** | ✅ Yes | The question/prompt |
+| **Language** | ✅ Yes | Language code (e.g., `python`, `javascript`, `rust`) |
+| **Back** | ✅ Yes | Your code answer |
+| **Back Extra** | ❌ Optional | Additional notes, explanations, or context |
+
 ### Understanding the Diff
 
 The Diff section provides a comparison of your code against the predefined solution. It uses the following color-coding to highlight discrepancies:
