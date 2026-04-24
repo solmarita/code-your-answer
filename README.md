@@ -117,12 +117,6 @@ git clone https://github.com/solmarita/code-your-answer.git
 
 **DISCLAIMER:** This addon is under active development and may change frequently!
 
-### Dev Mode
-
-This add-on includes a dev mode to prevent template flushing when not in development mode.
-
-## Development
-
 ### Setup
 
 **Option 1: Clone directly to Anki's addon folder**
@@ -146,6 +140,10 @@ ln -s "$(pwd)" <path_to_anki_addons_folder>/code-your-answer
 mklink /D "<path_to_anki_addons_folder>\code-your-answer" "%CD%"
 ```
 
+**Finding your Anki addons folder:**    
+    - Open Anki, go to `Tools > Add-ons`.  
+    - Click **View Files** to open the `addons21` directory.
+
 **Install dependencies:**
 ```bash
 python3 -m venv venv
@@ -160,14 +158,10 @@ touch .dev  # Windows: type nul > .dev
 npm run build
 ```
 
-**Finding your Anki addons folder:**    
-    - Open Anki, go to `Tools > Add-ons`.  
-    - Click **View Files** to open the `addons21` directory.
-
 ### Development Workflow
 
 ```bash
-# Make changes to __init__.py and src/ files
+# Make changes to __init__.py or src/ files
 npm run build
 # Restart Anki to see changes
 ```
@@ -176,7 +170,7 @@ npm run build
 
 ### Dev Mode
 
-The `.dev` file enables template auto-updates on Anki restart. 
+The `.dev` file enables template auto-updates on Anki restart during development.
 
 **Disable dev mode before release:**
 ```bash
