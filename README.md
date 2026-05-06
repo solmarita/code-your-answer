@@ -104,9 +104,9 @@ Manual test status — verified by loading the language in the editor and confir
 
 | Language | Tested |
 |----------|--------|
-| JavaScript | ⬜ |
-| TypeScript | ⬜ |
-| Python | ⬜ |
+| JavaScript | ✅ |
+| TypeScript | ✅ |
+| Python | ✅ |
 | Rust | ⬜ |
 | PHP | ⬜ |
 | Go | ⬜ |
