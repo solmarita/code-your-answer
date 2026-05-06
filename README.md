@@ -100,20 +100,20 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 
 ## Language Testing
 
-Manual test status — verified by loading the language in the editor and confirming the following work correctly: syntax highlighting, auto indentation, auto-closing brackets, and bracket matching.
+Manual test status, verified by loading the language in the editor and confirming the following work correctly: syntax highlighting, auto indentation, auto-closing brackets, and bracket matching.
 
 | Language | Tested |
 |----------|--------|
 | JavaScript | ✅ |
 | TypeScript | ✅ |
 | Python | ✅ |
-| Rust | ⬜ |
-| PHP | ⬜ |
-| Go | ⬜ |
-| Zig | ⬜ |
-| C++ | ⬜ |
-| C | ⬜ |
-| Java | ⬜ |
+| Rust | ✅ |
+| PHP | ✅ |
+| Go | ✅ |
+| Zig | ✅ |
+| C++ | ✅ |
+| C | ✅ |
+| Java | ✅ |
 | C# | ⬜ |
 | HTML | ⬜ |
 | CSS | ⬜ |
@@ -135,6 +135,27 @@ Manual test status — verified by loading the language in the editor and confir
 | Scala | ⬜ |
 | R | ⬜ |
 | MATLAB | ⬜ |
+
+### Known Issues
+
+#### Java: auto-indent after `};` on standalone methods/functions
+
+When writing a method outside of a class, pressing Enter after a line ending with `};` — such as an array initializer — may place the cursor at column 0 instead of the expected indentation level. Press **Tab** to restore the correct indentation.
+
+**Affected (method without class wrapper):**
+```java
+String greet(String name) {
+    int[] items = {1, 2, 3};
+    // pressing Enter here → cursor lands at col 0
+```
+
+**Not affected (method inside a class):**
+```java
+class Greeter {
+    String greet(String name) {
+        int[] items = {1, 2, 3};
+        // pressing Enter here → cursor stays at correct indentation
+```
 
 ## Request a Language
 
