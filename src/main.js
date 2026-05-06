@@ -2,7 +2,7 @@ import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 
 import { oneDark } from "@codemirror/theme-one-dark";
-import { githubLight } from "@fsegurai/codemirror-theme-bundle";
+import * as bundleThemes from "@fsegurai/codemirror-theme-bundle";
 
 import { keymap, showPanel } from "@codemirror/view";
 import { closeBrackets } from "@codemirror/autocomplete";
@@ -51,8 +51,12 @@ const ankiThemeMode = getActiveTheme();
  * Code Mirror Theme
  */
 
+const ALL_CM_THEMES = Object.fromEntries(
+  Object.entries(bundleThemes).filter(([key]) => !key.endsWith("MergeStyles"))
+);
+
 const CM_THEMES = {
-  light: githubLight,
+  light: bundleThemes.githubLight,
   dark: oneDark,
 };
 
