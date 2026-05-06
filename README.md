@@ -113,7 +113,7 @@ Manual test status, verified by loading the language in the editor and confirmin
 | Zig | ✅ |
 | C++ | ✅ |
 | C | ✅ |
-| Java | ✅ |
+| Java | ✅ (see known issues section below) |
 | C# | ⬜ |
 | HTML | ⬜ |
 | CSS | ⬜ |
@@ -138,23 +138,23 @@ Manual test status, verified by loading the language in the editor and confirmin
 
 ### Known Issues
 
-#### Java: auto-indent after `};` on standalone methods/functions
+#### Auto-indent breaks in C-style languages without a top-level wrapper
 
-When writing a method outside of a class, pressing Enter after a line ending with `};` — such as an array initializer — may place the cursor at column 0 instead of the expected indentation level. Press **Tab** to restore the correct indentation.
+In languages like Java and C#, writing code outside of a class can cause the cursor to land at column 0 after certain lines (e.g. after `};`). This is a CodeMirror parsing limitation, it needs the class context to correctly determine indentation levels. Press **Tab** to restore correct indentation.
 
-**Affected (method without class wrapper):**
+**Affected (no wrapper):**
 ```java
 String greet(String name) {
     int[] items = {1, 2, 3};
     // pressing Enter here → cursor lands at col 0
 ```
 
-**Not affected (method inside a class):**
+**Not affected (inside a class):**
 ```java
 class Greeter {
     String greet(String name) {
         int[] items = {1, 2, 3};
-        // pressing Enter here → cursor stays at correct indentation
+        // pressing Enter here → correct indentation
 ```
 
 ## Request a Language
