@@ -49,6 +49,19 @@ Designed for a hands-on-keyboard workflow:
 - **`Tab`**: Performs **Indentation** by inserting 4 spaces (for all languges). This ensures your code structure is clean and readable, a standard requirement for almost all programming languages (especially Python!).
 - **`Ctrl + Enter`** (or `Cmd + Enter`): Submits your answer and reveals the back of the card.
 
+## Editor Configuration
+
+Go to **Tools → Add-ons → Code Your Answer → Config** to customise the editor. Restart Anki after saving for changes to take effect.
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `theme` | `""` | Editor colour theme. Empty string uses the default themes (GitHub Light / One Dark) that follow Anki's light/dark mode. Set to a theme name to pin it regardless of mode. See the full list at [fsegurai.github.io/codemirror-themes](https://fsegurai.github.io/codemirror-themes/playground.html). |
+| `indentUnit` | `4` | Number of spaces per indentation level. |
+| `indentWithTab` | `true` | Allow the `Tab` key to indent. |
+| `autocompletion` | `false` | Show inline code completion suggestions. Disabled by default — keeping it off is recommended when using the editor for learning. |
+
+> Some basic editor behaviours — such as bracket matching and auto-closing brackets — are hardcoded and cannot be changed. More options will be added in future releases.
+
 ## Supported Languages
 
 | Language | Acceptable Aliases (Case-Insensitive) |
