@@ -1,6 +1,10 @@
 # Code Your Answer — Configuration
 
-## `theme`
+**Note:** Restart Anki after saving changes for them to take effect.
+
+## Editor
+
+### theme
 
 Sets the CodeMirror editor theme. Leave empty (`""`) to use the default themes that follow Anki's light/dark mode (GitHub Light in light mode, One Dark in dark mode).
 
@@ -8,7 +12,7 @@ Set to any theme name below to pin that theme regardless of Anki's mode.
 
 **Default:** `""` (auto)
 
-### Light themes
+#### Light themes
 
 - `basicLight`
 - `githubLight`
@@ -19,7 +23,7 @@ Set to any theme name below to pin that theme regardless of Anki's mode.
 - `tokyoNightDay`
 - `vsCodeLight`
 
-### Dark themes
+#### Dark themes
 
 - `abcdef`
 - `abyss`
@@ -45,10 +49,27 @@ Set to any theme name below to pin that theme regardless of Anki's mode.
 
 Preview themes at https://fsegurai.github.io/codemirror-themes/playground.html
 
-### Example
+---
 
-```json
-{
-  "theme": "nord"
-}
-```
+### indentUnit
+
+Number of spaces used for each level of indentation.
+
+**Default:** `4`
+
+---
+
+### indentWithTab
+
+Allows pressing `Tab` to indent the current line or selection.
+
+**Default:** `true`
+
+---
+
+### autocompletion
+
+Shows inline code completion suggestions while typing. Disabled by default — keeping it off is recommended when using the editor for learning, so you write code from memory.
+
+**Default:** `false`
+

@@ -5,10 +5,9 @@ import { oneDark } from "@codemirror/theme-one-dark";
 import * as bundleThemes from "@fsegurai/codemirror-theme-bundle";
 
 import { keymap, showPanel } from "@codemirror/view";
-import { closeBrackets } from "@codemirror/autocomplete";
-import { bracketMatching, indentUnit } from "@codemirror/language";
+import { autocompletion } from "@codemirror/autocomplete";
+import { indentUnit } from "@codemirror/language";
 import { indentWithTab } from "@codemirror/commands";
-import { autocompletion } from "@codemirror/autocomplete"
 
 import * as Diff from 'diff';
 
@@ -142,6 +141,15 @@ function languageBadge(name) {
   };
 }
 
+function buildUserExtensions(cfg) {
+  const exts = [];
+  exts.push(indentUnit.of(" ".repeat(cfg.indentUnit ?? 4)));
+  if (cfg.indentWithTab  !== false) exts.push(keymap.of([indentWithTab]));
+  exts.push(cfg.autocompletion ? autocompletion() : autocompletion({ override: [] }));
+  // Future extensions (e.g. vim): if (cfg.vim) exts.push(vim());
+  return exts;
+}
+
 /**
  * Initializes the CodeMirror editor with the specified language.
  * @param {string} lang - The language identifier from the Anki field.
@@ -183,17 +191,16 @@ async function createEditor(lang) {
         }
       ]),
 
-      // DEFAULT COMMANDS SECOND
+      // CORE EXTENSIONS
 
-      basicSetup,           // Includes essential features like line numbers and history
-      activeTheme,                           // Sets the editor's theme
-      extension,    // Applies syntax highlighting for the selected language
-      indentUnit.of("    "), // Set default indent unit to 4 spaces
-      showPanel.of(languageBadge(name)), // Adds the language label to the bottom
-      closeBrackets(),      // Automatically closes (), [], and {}
-      bracketMatching(),    // Highlights matching brackets
-      keymap.of([indentWithTab]), // Allows using the Tab key to indent
-      autocompletion({ override: [] }), // Disables autocomplete (preferred when learning to code!)
+      basicSetup,
+      activeTheme,
+      extension,
+      showPanel.of(languageBadge(name)),
+
+      // USER-CONFIGURED EXTENSIONS
+
+      ...buildUserExtensions(window.CYA_CONFIG ?? {}),
       
       // Sync editor state to sessionStorage for downstream diffing
       EditorView.updateListener.of((update) => {
