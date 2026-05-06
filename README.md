@@ -55,7 +55,7 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `theme` | `""` | Editor colour theme. Empty string uses the default themes (GitHub Light / One Dark) that follow Anki's light/dark mode. Set to a theme name to pin it regardless of mode. See the full list at [fsegurai.github.io/codemirror-themes](https://fsegurai.github.io/codemirror-themes/playground.html). |
+| `theme` | `""` | Editor colour theme. Empty string uses the default themes (GitHub Light / One Dark) that follow Anki's light/dark mode. Set to a theme name to pin it regardless of mode. See the full list at [fsegurai.github.io/codemirror-themes](https://fsegurai.github.io/codemirror-themes/). View themes in action at the [Playground](https://fsegurai.github.io/codemirror-themes/playground.html). |
 | `indentUnit` | `4` | Number of spaces per indentation level. |
 | `indentWithTab` | `true` | Allow the `Tab` key to indent. |
 | `autocompletion` | `false` | Show inline code completion suggestions. Disabled by default — keeping it off is recommended when using the editor for learning. |
