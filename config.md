@@ -8,41 +8,42 @@ Set to any theme name below to pin that theme regardless of Anki's mode.
 
 **Default:** `""` (auto)
 
-### Available themes
+### Light themes
 
-| Name | Style |
-|------|-------|
-| `abcdef` | Dark |
-| `abyss` | Dark |
-| `androidStudio` | Dark |
-| `andromeda` | Dark |
-| `basicDark` | Dark |
-| `basicLight` | Light |
-| `catppuccinMocha` | Dark |
-| `cobalt2` | Dark |
-| `forest` | Dark |
-| `githubDark` | Dark |
-| `githubLight` | Light |
-| `gruvboxDark` | Dark |
-| `gruvboxLight` | Light |
-| `highContrastDark` | Dark |
-| `highContrastLight` | Light |
-| `materialDark` | Dark |
-| `materialLight` | Light |
-| `materialOcean` | Dark |
-| `monokai` | Dark |
-| `nord` | Dark |
-| `palenight` | Dark |
-| `solarizedDark` | Dark |
-| `solarizedLight` | Light |
-| `synthwave84` | Dark |
-| `tokyoNightDay` | Light |
-| `tokyoNightStorm` | Dark |
-| `volcano` | Dark |
-| `vsCodeDark` | Dark |
-| `vsCodeLight` | Light |
+- `basicLight`
+- `githubLight`
+- `gruvboxLight`
+- `highContrastLight`
+- `materialLight`
+- `solarizedLight`
+- `tokyoNightDay`
+- `vsCodeLight`
 
-Preview themes at https://fsegurai.github.io/codemirror-themes/
+### Dark themes
+
+- `abcdef`
+- `abyss`
+- `androidStudio`
+- `andromeda`
+- `basicDark`
+- `catppuccinMocha`
+- `cobalt2`
+- `forest`
+- `githubDark`
+- `gruvboxDark`
+- `highContrastDark`
+- `materialDark`
+- `materialOcean`
+- `monokai`
+- `nord`
+- `palenight`
+- `solarizedDark`
+- `synthwave84`
+- `tokyoNightStorm`
+- `volcano`
+- `vsCodeDark`
+
+Preview themes at https://fsegurai.github.io/codemirror-themes/playground.html
 
 ### Example
 
