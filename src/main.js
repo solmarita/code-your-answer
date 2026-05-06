@@ -60,6 +60,11 @@ const CM_THEMES = {
   dark: oneDark,
 };
 
+const userThemeName = window.CYA_CONFIG?.theme;
+const activeTheme = (userThemeName && ALL_CM_THEMES[userThemeName])
+  ? ALL_CM_THEMES[userThemeName]
+  : CM_THEMES[ankiThemeMode];
+
 /**
  * HLJS Theme
  */
@@ -181,7 +186,7 @@ async function createEditor(lang) {
       // DEFAULT COMMANDS SECOND
 
       basicSetup,           // Includes essential features like line numbers and history
-      CM_THEMES[ankiThemeMode],              // Sets the editor's theme
+      activeTheme,                           // Sets the editor's theme
       extension,    // Applies syntax highlighting for the selected language
       indentUnit.of("    "), // Set default indent unit to 4 spaces
       showPanel.of(languageBadge(name)), // Adds the language label to the bottom

@@ -1,6 +1,8 @@
+import json
 from pathlib import Path
 from typing import TypedDict
 from aqt import mw, gui_hooks
+from aqt.webview import WebContent
 
 # Allow web views to access files in the 'web' subfolder
 mw.addonManager.setWebExports(__name__, r"web/.*")
@@ -158,3 +160,13 @@ def init_cya() -> None:
 
 # Addon init
 gui_hooks.profile_did_open.append(init_cya)
+
+def inject_cya_config(web_content: WebContent, context) -> None:
+    from aqt.reviewer import Reviewer
+    if not isinstance(context, Reviewer):
+        return
+    config = mw.addonManager.getConfig(__name__) or {}
+    payload = json.dumps({"theme": config.get("theme", "")})
+    web_content.head += f'\n<script>window.CYA_CONFIG = {payload};</script>'
+
+gui_hooks.webview_will_set_content.append(inject_cya_config)
