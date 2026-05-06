@@ -64,6 +64,8 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 
 ## Supported Languages
 
+**Note:** Vue and Angular support template syntax only. For component logic, use JavaScript or TypeScript.
+
 | Language | Acceptable Aliases (Case-Insensitive) |
 | --- | --- |
 | **JavaScript** | `js`, `jsx`, `node`, `javascript`, `ecmascript` |
@@ -114,15 +116,15 @@ Manual test status, verified by loading the language in the editor and confirmin
 | C++ | ✅ |
 | C | ✅ |
 | Java | ✅ (see known issues section below) |
-| C# | ⬜ |
-| HTML | ⬜ |
-| CSS | ⬜ |
-| XML | ⬜ |
-| Sass | ⬜ |
-| Less | ⬜ |
-| Vue | ⬜ |
-| Angular | ⬜ |
-| SQL | ⬜ |
+| C# | ✅ (see known issues section below)|
+| HTML | ✅ |
+| CSS | ✅ |
+| XML | ✅ |
+| Sass | ✅ |
+| Less | ✅ |
+| Vue | ✅ |
+| Angular | ✅ |
+| SQL | ✅ |
 | WebAssembly | ⬜ |
 | Shell | ⬜ |
 | YAML | ⬜ |
