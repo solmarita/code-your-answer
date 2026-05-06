@@ -98,6 +98,44 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 | **R** | `r`, `rscript` |
 | **MATLAB** | `matlab`, `m` |
 
+## Language Testing
+
+Manual test status — verified by loading the language in the editor and confirming the following work correctly: syntax highlighting, auto indentation, auto-closing brackets, and bracket matching.
+
+| Language | Tested |
+|----------|--------|
+| JavaScript | ⬜ |
+| TypeScript | ⬜ |
+| Python | ⬜ |
+| Rust | ⬜ |
+| PHP | ⬜ |
+| Go | ⬜ |
+| Zig | ⬜ |
+| C++ | ⬜ |
+| C | ⬜ |
+| Java | ⬜ |
+| C# | ⬜ |
+| HTML | ⬜ |
+| CSS | ⬜ |
+| XML | ⬜ |
+| Sass | ⬜ |
+| Less | ⬜ |
+| Vue | ⬜ |
+| Angular | ⬜ |
+| SQL | ⬜ |
+| WebAssembly | ⬜ |
+| Shell | ⬜ |
+| YAML | ⬜ |
+| JSON | ⬜ |
+| Markdown | ⬜ |
+| Swift | ⬜ |
+| Kotlin | ⬜ |
+| Dart | ⬜ |
+| Ruby | ⬜ |
+| Scala | ⬜ |
+| R | ⬜ |
+| MATLAB | ⬜ |
+
 ## Request a Language
 
 Don't see your language? Check if CodeMirror supports it:
