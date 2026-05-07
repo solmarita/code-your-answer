@@ -64,7 +64,9 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 
 ## Supported Languages
 
-**Note:** Vue and Angular support template syntax only. For component logic, use JavaScript or TypeScript.
+**Notes:** 
+- Vue and Angular support template syntax only. For component logic, use JavaScript or TypeScript.
+- WebAssembly support is for the WebAssembly Text Format (WAST) only, not binary WebAssembly.
 
 | Language | Acceptable Aliases (Case-Insensitive) |
 | --- | --- |
@@ -125,18 +127,18 @@ Manual test status, verified by loading the language in the editor and confirmin
 | Vue | ✅ |
 | Angular | ✅ |
 | SQL | ✅ |
-| WebAssembly | ⬜ |
-| Shell | ⬜ |
-| YAML | ⬜ |
-| JSON | ⬜ |
-| Markdown | ⬜ |
-| Swift | ⬜ |
-| Kotlin | ⬜ |
-| Dart | ⬜ |
-| Ruby | ⬜ |
-| Scala | ⬜ |
-| R | ⬜ |
-| MATLAB | ⬜ |
+| WebAssembly | ✅ |
+| Shell | ✅ (see known issues section below)|
+| YAML | ✅ |
+| JSON | ✅ |
+| Markdown | ✅ |
+| Swift | ✅ |
+| Kotlin | ✅ |
+| Dart | ✅ |
+| Ruby | ✅ |
+| Scala | ✅ |
+| R | ✅ |
+| MATLAB | ✅ (see known issues section below)|
 
 ### Known Issues
 
@@ -158,6 +160,13 @@ class Greeter {
         int[] items = {1, 2, 3};
         // pressing Enter here → correct indentation
 ```
+
+#### Languages using CodeMirror Legacy Modes
+
+The following languages use CodeMirror 5 legacy modes instead of first-class `@codemirror/lang-*` packages. Syntax highlighting works, but auto-indentation may be limited or unavailable. Manually pressing **Tab** to indent should still work.
+
+- Shell
+- MATLAB
 
 ## Request a Language
 
