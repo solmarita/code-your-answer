@@ -142,9 +142,9 @@ Manual test status, verified by loading the language in the editor and confirmin
 
 ### Known Issues
 
-#### Auto-indent breaks in C-style languages without a top-level wrapper
+#### Auto-indent breaks in some C-style languages without a top-level wrapper
 
-In languages like Java and C#, writing code outside of a class can cause the cursor to land at column 0 after certain lines (e.g. after `};`). This is a CodeMirror parsing limitation, it needs the class context to correctly determine indentation levels. Press **Tab** to restore correct indentation.
+In languages like Java and C#, writing code outside of a class can cause the cursor to land at column 0 after certain lines (e.g. after `};`). Manually pressing **Tab** to indent should still work.
 
 **Affected (no wrapper):**
 ```java
@@ -163,7 +163,7 @@ class Greeter {
 
 #### Languages using CodeMirror Legacy Modes
 
-The following languages use CodeMirror 5 legacy modes instead of first-class `@codemirror/lang-*` packages. Syntax highlighting works, but auto-indentation may be limited or unavailable. Manually pressing **Tab** to indent should still work.
+The following languages use CodeMirror 5 legacy modes packages. Syntax highlighting works, but auto-indentation may be limited or unavailable. Manually pressing **Tab** to indent should still work.
 
 - Shell
 - MATLAB
