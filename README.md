@@ -48,6 +48,8 @@ Designed for a hands-on-keyboard workflow:
 
 - **`Tab`**: Performs **Indentation** by inserting 4 spaces (for all languges). This ensures your code structure is clean and readable, a standard requirement for almost all programming languages (especially Python!).
 - **`Ctrl + Enter`** (or `Cmd + Enter`): Submits your answer and reveals the back of the card.
+- **`Ctrl + /`** (or `Cmd + /`): Toggles a **line comment** on the selected line(s) using the correct syntax for the active language (e.g. `//` in JS, `#` in Python).
+- **`Shift + Alt + A`** (or `Alt + A` on Windows): Toggles a **block comment** around the selection for languages that support it (e.g. `/* */` in JS/CSS).
 
 ## Editor Configuration
 
