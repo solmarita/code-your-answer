@@ -7,7 +7,7 @@ import * as bundleThemes from "@fsegurai/codemirror-theme-bundle";
 import { keymap, showPanel } from "@codemirror/view";
 import { autocompletion } from "@codemirror/autocomplete";
 import { indentUnit } from "@codemirror/language";
-import { indentWithTab } from "@codemirror/commands";
+import { indentWithTab, toggleBlockComment } from "@codemirror/commands";
 
 import * as Diff from 'diff';
 
@@ -168,6 +168,10 @@ async function createEditor(lang) {
     extensions: [
       // CUSTOM COMMANDS FIRST
       keymap.of([
+        {
+          key: "Ctrl-Shift-a",
+          run: toggleBlockComment,
+        },
         {
           key: "Ctrl-Enter",
           run: (view) => {
