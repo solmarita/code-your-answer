@@ -29,6 +29,15 @@ import "./style.css";
 
 const STORAGE_KEY = 'cya_editor_content';
 
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // THEMEING
 
 /**
@@ -263,12 +272,13 @@ function renderCyaDiff(correctCodeHTML, diffTargetId, answerTargetId, attemptTar
   const diff = Diff.diffChars(typedInput.trimEnd(), solution);
   let diffHtml = '<div class="cya-diff-inline">';
   diff.forEach((part) => {
+    const escaped = escapeHtml(part.value);
     if (!part.added && !part.removed) {
-      diffHtml += `<span class="diff-match">${part.value}</span>`;
+      diffHtml += `<span class="diff-match">${escaped}</span>`;
     } else if (part.added) {
-      diffHtml += `<span class="diff-missed">${part.value}</span>`;
+      diffHtml += `<span class="diff-missed">${escaped}</span>`;
     } else if (part.removed) {
-      diffHtml += `<span class="diff-extra">${part.value}</span>`;
+      diffHtml += `<span class="diff-extra">${escaped}</span>`;
     }
   });
   diffHtml += '</div>';

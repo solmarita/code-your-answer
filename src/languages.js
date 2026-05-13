@@ -318,3 +318,4 @@ export const languageRegistry = {
     return { extension: new LanguageSupport(lr), name: "Zig" };
   },
 };
+
