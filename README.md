@@ -163,6 +163,10 @@ class Greeter {
         // pressing Enter here → correct indentation
 ```
 
+#### `<script>` and `<style>` tags do not auto-close in HTML mode
+
+Typing `<script>` or `<style>` will not automatically insert the closing tag. This is a consequence of how CodeMirror's HTML language support works: these tags embed nested languages (JavaScript and CSS respectively), and the auto-close extension detects the nested language context as active before the `>` is typed, so it skips them. `<textarea>` and all other HTML tags auto-close as expected.
+
 #### Languages using CodeMirror Legacy Modes
 
 The following languages use CodeMirror 5 legacy modes packages. Syntax highlighting works, but auto-indentation may be limited or unavailable. Manually pressing **Tab** to indent should still work.
