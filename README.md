@@ -165,7 +165,7 @@ class Greeter {
 
 #### `<script>` and `<style>` tags do not auto-close in HTML mode
 
-Typing `<script>` or `<style>` will not automatically insert the closing tag. This is a consequence of how CodeMirror's HTML language support works: these tags embed nested languages (JavaScript and CSS respectively), and the auto-close extension detects the nested language context as active before the `>` is typed, so it skips them. `<textarea>` and all other HTML tags auto-close as expected.
+Typing `<script>` or `<style>` will not automatically insert the closing tag. This is a consequence of how CodeMirror's HTML language support works: these tags embed nested languages (JavaScript and CSS respectively), and it seems to prevent their tags from auto closing.All other HTML tags auto-close as expected.
 
 #### Languages using CodeMirror Legacy Modes
 
