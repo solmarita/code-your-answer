@@ -61,6 +61,7 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 | `indentUnit` | `4` | Number of spaces per indentation level. |
 | `indentWithTab` | `true` | Allow the `Tab` key to indent. |
 | `autocompletion` | `false` | Show inline code completion suggestions. Disabled by default — keeping it off is recommended when using the editor for learning. |
+| `fontSize` | `14` | Font size of the editor content in pixels. |
 
 > Some basic editor behaviours, such as bracket matching and auto-closing brackets, are hardcoded and cannot be changed. More options will be added in future releases.
 

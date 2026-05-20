@@ -155,6 +155,7 @@ function buildUserExtensions(cfg) {
   exts.push(indentUnit.of(" ".repeat(cfg.indentUnit ?? 4)));
   if (cfg.indentWithTab  !== false) exts.push(keymap.of([indentWithTab]));
   exts.push(cfg.autocompletion ? autocompletion() : autocompletion({ override: [] }));
+  exts.push(EditorView.theme({ "&": { fontSize: `${cfg.fontSize ?? 14}px` } }));
   // Future extensions (e.g. vim): if (cfg.vim) exts.push(vim());
   return exts;
 }

@@ -73,3 +73,11 @@ Shows inline code completion suggestions while typing. Disabled by default — k
 
 **Default:** `false`
 
+---
+
+### fontSize
+
+Font size of the editor content in pixels.
+
+**Default:** `14`
+

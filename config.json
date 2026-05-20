@@ -1,5 +1,6 @@
 {
   "theme": "",
+  "fontSize": 14,
   "indentUnit": 4,
   "indentWithTab": true,
   "autocompletion": false
