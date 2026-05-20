@@ -5,7 +5,7 @@
 .cm-editor {
     border: 1px solid #444;
     max-width: 900px;
-    font-size: 14px;
+    font-size: 20px;
 
     resize: vertical;
     overflow: auto;

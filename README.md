@@ -2,7 +2,7 @@
 
 An Anki addon for coding practice. Type your answers in an IDE-style input field and get an instant, character-level diff against the solution.
 
-![Demo](docs/code-your-answer.gif)
+![Demo](docs/code-your-ans.gif)
 
 ## ⚠️ Compatibility
 
