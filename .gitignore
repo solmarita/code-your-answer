@@ -99,6 +99,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Personal template modifications (Includes Custom Obsidian fields that cause Field not found error when addon is installed on user's end)
+# Personal template modifications (Includes Custom Obsidian fields that cause Field not found error when addon is installed on user's end, commented out)
 back.html              # Source template
 web/back.html          # Built template
