@@ -131,6 +131,15 @@ git clone https://github.com/solmarita/code-your-answer.git
 2. **Copy the project folder**: Move the `code-your-answer` folder (or `code-your-answer-main` if that is the extracted folder name) into the `addons21/` directory.
 
 3. **Verify the structure**: After copying, your `addons21` directory should contain:
+```
+   addons21/
+   └── code-your-answer-main/
+       ├── __init__.py
+       ├── web/
+       ├── src/
+       └── ... (other files)
+```
+4. **Restart Anki**: Close and reopen Anki to activate the addon.
 
 ## Supported Languages
 
