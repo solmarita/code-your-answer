@@ -105,16 +105,25 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 
 ## Installation
 
-Since this addon is not yet published on AnkiWeb, it must be installed manually.
+### Option 1: Install from AnkiWeb (Easiest)
 
-### Option 1: Download as a ZIP (Easiest)
+1. Open Anki
+2. Go to **Tools → Add-ons**
+3. Click **Browse & Install...**
+4. Paste the code: `2050299569`
+5. Click **OK**
+6. Restart Anki
+
+The add-on is now installed and ready to use.
+
+### Option 2: Download as ZIP (Manual Install)
 
 1. **Download the code**: Click the green **Code** button at the top of this page and select **Download ZIP**. 
 2. **Unzip the folder**: Extract the contents of the ZIP file on your computer.
 
-> **Note:** The ZIP extraction may create a nested folder structure (e.g., `code-your-answer-main/code-your-answer-main/`). If this occurs, navigate into the innermost `code-your-answer-main` folder and use that as your add-on directory.
+> **Note for Windows users:** The ZIP extraction may create a nested folder structure (e.g., `code-your-answer-main/code-your-answer-main/`). If this occurs, navigate into the innermost `code-your-answer-main` folder and use that as your add-on directory.
 
-### Option 2: Clone with Git (Best for Updates)
+### Option 3: Clone with Git (Best for Updates)
 
 If you have Git installed, run the following in your terminal:
 
@@ -122,7 +131,7 @@ If you have Git installed, run the following in your terminal:
 git clone https://github.com/solmarita/code-your-answer.git
 ```
 
-### Finalizing the Install
+### Finalizing Manual Install (Options 2 & 3)
 
 1. **Locate your Anki addons folder**:
     - Open Anki, go to `Tools > Add-ons`.  
@@ -133,13 +142,47 @@ git clone https://github.com/solmarita/code-your-answer.git
 3. **Verify the structure**: After copying, your `addons21` directory should contain:
 ```
    addons21/
-   └── code-your-answer-main/
+   └── code-your-answer/
        ├── __init__.py
        ├── web/
        ├── src/
        └── ... (other files)
 ```
+
 4. **Restart Anki**: Close and reopen Anki to activate the addon.
+
+## Updating the Add-on
+
+### Asset Path Changes
+
+This add-on uses Vite to bundle assets, which automatically generates unique filenames (e.g., `front-BMzCq9aJ.js`). When the add-on is updated or reinstalled from different sources, these filenames change, causing old card templates to reference broken asset paths.
+
+### Fixing Broken Cards After Update
+
+If your cards stop working after updating the add-on:
+
+1. **Save your template modifications** (if any):
+   - Go to **Browse**
+   - Find a card of type "Code Your Answer"
+   - Click **Cards** to view the template
+   - Review the Front, Back, and Styling sections
+   - Copy and save any custom edits to a text file
+
+2. **Create a `.dev` file** in the add-on folder to force template regeneration:
+   - Go to **Tools → Add-ons**
+   - Click **View Files** to open the add-ons folder
+   - Navigate to the `2050299569` folder (Code Your Answer)
+   - Create a new empty file named `.dev` (no extension):
+     - **Windows/macOS:** Open a text editor (Notepad, VS Code), leave it blank, and save as `.dev` in the add-on folder
+     - **macOS/Linux (Terminal):** Run `touch .dev` in the add-on folder (if you're familiar with the terminal)
+
+3. **Restart Anki** to regenerate templates with current asset paths
+
+4. **Restore your modifications** (if any):
+   - Reapply your template edits via **Browse → Cards**
+   - Delete the `.dev` file from the add-on folder (otherwise your template modifications will be overwritten the next time you start Anki)
+
+Your cards will now work with the updated asset paths.
 
 ## Supported Languages
 
