@@ -8,7 +8,7 @@ An Anki addon for coding practice. Type your answers in an IDE-style input field
 
 This add-on is **only supported on Anki Desktop**.
 
-It relies on features such as custom JavaScript bundles, local asset loading, and add-on integrations that are not available in AnkiWeb or other restricted Anki environments.
+It relies on features that are not available on AnkiMobile and AnkiWeb.
 
 ## Features
 
