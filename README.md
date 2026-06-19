@@ -103,6 +103,35 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 
 > Some basic editor behaviours, such as bracket matching and auto-closing brackets, are hardcoded and cannot be changed. More options will be added in future releases.
 
+## Installation
+
+Since this addon is not yet published on AnkiWeb, it must be installed manually.
+
+### Option 1: Download as a ZIP (Easiest)
+
+1. **Download the code**: Click the green **Code** button at the top of this page and select **Download ZIP**. 
+2. **Unzip the folder**: Extract the contents of the ZIP file on your computer.
+
+> **Note:** The ZIP extraction may create a nested folder structure (e.g., `code-your-answer-main/code-your-answer-main/`). If this occurs, navigate into the innermost `code-your-answer-main` folder and use that as your add-on directory.
+
+### Option 2: Clone with Git (Best for Updates)
+
+If you have Git installed, run the following in your terminal:
+
+```bash
+git clone https://github.com/solmarita/code-your-answer.git
+```
+
+### Finalizing the Install
+
+1. **Locate your Anki addons folder**:
+    - Open Anki, go to `Tools > Add-ons`.  
+    - Click **View Files** to open the `addons21` directory.
+
+2. **Copy the project folder**: Move the `code-your-answer` folder (or `code-your-answer-main` if that is the extracted folder name) into the `addons21/` directory.
+
+3. **Verify the structure**: After copying, your `addons21` directory should contain:
+
 ## Supported Languages
 
 **Notes:** 
@@ -220,33 +249,6 @@ Don't see your language? Check if CodeMirror supports it:
 - **Legacy modes:** https://code.haverbeke.berlin/codemirror/legacy-modes
 
 If you find it there, [open an issue](https://github.com/solmarita/code-your-answer/issues/new) with the language name and I'll add it. If it's not there, I'll do my best to find a third-party package.
-
-## Installation
-
-Since this addon is not yet published on AnkiWeb, it must be installed manually.
-
-### Option 1: Download as a ZIP (Easiest)
-
-1. **Download the code**: Click the green **Code** button at the top of this page and select **Download ZIP**. 
-2. **Unzip the folder**: Extract the contents of the ZIP file on your computer.
-    
-### Option 2: Clone with Git (Best for Updates)
-
-If you have Git installed, run the following in your terminal:
-
-```bash
-git clone https://github.com/solmarita/code-your-answer.git
-```
-
-### Finalizing the Install
-
-1. **Locate your Anki addons folder**:
-    
-    - Open Anki, go to `Tools > Add-ons`.  
-    - Click **View Files** to open the `addons21` directory.
-        
-2. **Copy the project folder**: Move the `code-your-answer` folder into the `addons21/` directory.
-3. **Restart Anki**: Close and reopen Anki to activate the addon.
 
 ## Development
 
