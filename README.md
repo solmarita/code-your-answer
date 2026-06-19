@@ -42,6 +42,44 @@ The Diff section provides a comparison of your code against the predefined solut
 
 ![Diff Example](https://github.com/solmarita/code-your-answer/blob/main/docs/diff_example.png)
 
+## Creating Cards
+
+### The Problem with Anki's Default Editor
+
+Anki's built-in editor converts whitespace to HTML entities (`&nbsp;` for spaces, `<br>` for line breaks). This causes issues with the diff comparison, as your code won't match the solution due to formatting differences rather than actual code differences.
+
+### Solutions
+
+#### Best: Obsidian_to_Anki
+
+Use [Obsidian_to_Anki](https://github.com/Pseudonium/Obsidian_to_Anki) to create cards from Obsidian markdown files. The plugin automatically converts code blocks to a format that works seamlessly with the diff, and looks great overall (in case you need formatted and syntax highighted code blocks on the front side and Back Extra)
+
+**Tutorial:** [Obsidian_to_Anki - How to use (3:31)](https://youtu.be/OqVs1Sw-Ahg?t=3031&si=hkb91izv8oku1JNj)
+
+This is the recommended workflow when using this addon.
+
+#### Good: Syntax Highlighter Add-on
+
+Install [Syntax Highlighter](https://ankiweb.net/shared/info/272582198) to create cards directly in Anki with proper code formatting (tested with default settings).
+
+#### Not Recommended: Manual HTML
+
+Manual HTML wrapping is unnecessarily cumbersome. If this approach is unavoidable, use an external editor (such as VS Code) to format the code:
+
+```html
+<pre><code>def greet(name) -> str:
+    return f"Hello, {name}"</code></pre>
+```
+
+Copy the entire block (including tags) and paste into the Back field. Obsidian_to_Anki or Syntax Highlighter are strongly preferred alternatives.
+
+## Field Guidelines
+
+- **Back**: Include only the code you want compared in the diff
+- **Back Extra**: Use for explanations, notes, or additional context that should not affect grading
+
+The diff only compares the Back field code, so any supplementary information should go in Back Extra.
+
 ## Keyboard Shortcuts
 
 Designed for a hands-on-keyboard workflow:
