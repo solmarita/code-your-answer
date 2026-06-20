@@ -121,7 +121,7 @@ The add-on is now installed and ready to use.
 1. **Download the code**: Click the green **Code** button at the top of this page and select **Download ZIP**. 
 2. **Unzip the folder**: Extract the contents of the ZIP file on your computer.
 
-> **Note for Windows users:** The ZIP extraction may create a nested folder structure (e.g., `code-your-answer-main/code-your-answer-main/`). If this occurs, navigate into the innermost `code-your-answer-main` folder and use that as your add-on directory.
+> **Note:** The ZIP extraction may create a nested folder structure (e.g., `code-your-answer-main/code-your-answer-main/`). If this occurs, navigate into the innermost `code-your-answer-main` folder and use that as your add-on directory.
 
 ### Option 3: Clone with Git (Best for Updates)
 
