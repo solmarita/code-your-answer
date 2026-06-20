@@ -109,7 +109,7 @@ Go to **Tools → Add-ons → Code Your Answer → Config** to customise the edi
 
 1. Open Anki
 2. Go to **Tools → Add-ons**
-3. Click **Browse & Install...**
+3. Click **Get Add-ons...**
 4. Paste the code: `2050299569`
 5. Click **OK**
 6. Restart Anki
